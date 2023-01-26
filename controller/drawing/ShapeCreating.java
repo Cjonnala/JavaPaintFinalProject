@@ -11,13 +11,13 @@ import java.awt.*;
 
 public class ShapeCreating implements IEventCallback,IUndoable {
 
-    private ShapeType shapeType;
+    private final ShapeType shapeType;
     ApplicationState appState;
-    private Coordinate startCoordinate;
-    private Coordinate endCoordinate;
-    private ListForShapes listForShapes;
+    private final Coordinate startCoordinate;
+    private final Coordinate endCoordinate;
+    private final ListForShapes listForShapes;
     Color pColor;
-    private ShapeShadingType shapeShadingType;
+    private final ShapeShadingType shapeShadingType;
     public ShapeFrame shapeFrame;
 
     public ShapeCreating(ApplicationState appState, Coordinate startCoordinate, Coordinate endCoordinate, Color pColor, ListForShapes listForShapes, ShapeShadingType shapeShadingType, ShapeType shapeType){
@@ -41,11 +41,13 @@ public class ShapeCreating implements IEventCallback,IUndoable {
 
     @Override
     public void undo() {
+        listForShapes.removeShape();
 
     }
 
     @Override
     public void redo() {
+        listForShapes.redoShape();
 
     }
 }
