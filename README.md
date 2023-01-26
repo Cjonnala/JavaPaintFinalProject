@@ -10,3 +10,6 @@ Points to be noted:
 •	If any shape selected by default Rectangle shape only comes with Red colour.
 •	If any shading type selected by default filled in rectangle will come.
 •	Above 2 observations will be resolved in the next sprint.
+
+Below is my Repo Link :
+https://github.com/Cjonnala/JavaPaintFinalProject
