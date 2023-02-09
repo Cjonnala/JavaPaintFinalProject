@@ -18,7 +18,7 @@ import java.awt.event.MouseEvent;
 public class MouseHandler extends MouseAdapter {
 
     ApplicationState appState;
-    private ListForShapes listForShapes;
+    private final ListForShapes listForShapes;
     public Coordinate startCoordinate;
     public Coordinate endCoordinate;
     public PaintCanvasBase paintCanvas;
@@ -41,7 +41,7 @@ public class MouseHandler extends MouseAdapter {
         this.endCoordinate = new Coordinate(e.getX(), e.getY());
 
         ColorPalette primaryColorPalette = new ColorPalette(appState.getActivePrimaryColor());
-        Color pColor = primaryColorPalette.setColor();
+        Color pColor = primaryColorPalette.getColor();
 
         ShapeShadingType shadingType = appState.getActiveShapeShadingType();
 
