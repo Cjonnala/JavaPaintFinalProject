@@ -16,40 +16,26 @@ public class Shape {
     ApplicationState appState;
     public boolean shapeSelected = false;
     public boolean undoPerformered = false;
-    public boolean isShape = true;
-    public boolean shapePasted = false;
 
     int deltaX;
     int deltaY;
 
-    Shape(Coordinate startCoordinate, Coordinate endCoordinate, ApplicationState appState, Color pColor , ShapeShadingType shadingType, ShapeType shapeType) {
+    Shape(Coordinate startCoordinate, Coordinate endCoordinate, ApplicationState appState, Color pColor ,Color sColor, ShapeShadingType shadingType, ShapeType shapeType) {
         this.startCoordinate = startCoordinate;
         this.endCoordinate = endCoordinate;
         this.appState = appState;
         this.pColor = pColor;
-        //this.sColor = sColor;
+        this.sColor = sColor;
         this.shadingType = shadingType;
         this.shapeType = shapeType;
     }
 
-    public void draw(Graphics2D g) {
 
-        if (shapeType==ShapeType.RECTANGLE)
-        {
-            RectShape rect = new RectShape(this);
-            rect.draw(g);
-        }
-        else
-        {
-            RectShape rect = new RectShape(this);
-            rect.draw(g);
-        }
-    }
 
 
     public void redoMove(){
-        this.setStartPoint(((int)this.getStartPoint().x)+deltaX, ((int)this.getStartPoint().y)+deltaY);
-        this.setEndPoint(((int)this.getEndPoint().x)+deltaX, ((int)this.getEndPoint().y)+deltaY);
+        this.setStartPoint(this.getStartPoint().x +deltaX, this.getStartPoint().y +deltaY);
+        this.setEndPoint(this.getEndPoint().x +deltaX, this.getEndPoint().y +deltaY);
     }
 
 

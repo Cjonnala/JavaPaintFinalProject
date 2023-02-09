@@ -1,15 +1,13 @@
 package controller.drawing;
 
-import model.ShapeShadingType;
 import model.interfaces.ShapeFrame;
-import model.persistence.ApplicationState;
 
 import java.awt.*;
 
 final class RectShape implements ShapeFrame {
 
     Shape shape;
-    ApplicationState appState;
+
     RectShape(Shape shape){
         this.shape = shape;
     }
@@ -27,14 +25,24 @@ final class RectShape implements ShapeFrame {
 
         g.setColor(shape.pColor);
 
-        if(shape.shadingType == ShapeShadingType.FILLED_IN)
-        {
-            g.fillRect(startX,startY,width, height);
-        }
-
-        else
-        {
-            g.fillRect(startX,startY,width, height);
+        switch (shape.shadingType) {
+            case FILLED_IN -> {
+                g.fillRect(startX, startY, width, height);
+                g.setColor(shape.pColor);
+                g.setStroke(new BasicStroke(8));
+            }
+            case OUTLINE -> {
+                g.setStroke(new BasicStroke(8));
+                g.setColor(shape.pColor);
+                g.drawRect(startX, startY, width, height);
+            }
+            case OUTLINE_AND_FILLED_IN -> {
+                g.setColor(shape.pColor);
+                g.fillRect(startX, startY, width, height);
+                g.setColor(shape.sColor);
+                g.setStroke(new BasicStroke(8));
+                g.drawRect(startX, startY, width, height);
+            }
         }
     }
 

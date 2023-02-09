@@ -42,6 +42,8 @@ public class MouseHandler extends MouseAdapter {
 
         ColorPalette primaryColorPalette = new ColorPalette(appState.getActivePrimaryColor());
         Color pColor = primaryColorPalette.getColor();
+        ColorPalette secondaryColorPalette = new ColorPalette(appState.getActiveSecondaryColor());
+        Color sColor = secondaryColorPalette.getColor();
 
         ShapeShadingType shadingType = appState.getActiveShapeShadingType();
 
@@ -50,13 +52,13 @@ public class MouseHandler extends MouseAdapter {
 
         if (appState.getActiveMouseMode() == MouseMode.DRAW)
         {
-            IEventCallback createShapeCommand = new ShapeCreating(appState, startCoordinate, endCoordinate, pColor, listForShapes, shadingType, shapeType);
+            IEventCallback createShapeCommand = new ShapeCreating(appState, startCoordinate, endCoordinate, pColor,sColor, listForShapes, shadingType, shapeType);
             createShapeCommand.run();
         }
         else
         {
 
-            IEventCallback createShapeCommand = new ShapeCreating(appState, startCoordinate, endCoordinate, pColor, listForShapes, shadingType, shapeType);
+            IEventCallback createShapeCommand = new ShapeCreating(appState, startCoordinate, endCoordinate, pColor,sColor, listForShapes, shadingType, shapeType);
             createShapeCommand.run();
         }
 
