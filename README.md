@@ -13,3 +13,5 @@ Points to be noted:
 
 Below is my Repo Link :
 https://github.com/Cjonnala/JavaPaintFinalProject
+
+Sprint 2:
