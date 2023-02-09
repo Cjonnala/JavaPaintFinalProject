@@ -1,5 +1,6 @@
-package controller.drawing;
+package controller.commands;
 
+import controller.drawing.CommandHistory;
 import view.interfaces.IEventCallback;
 
 public class Redo implements IEventCallback {

@@ -33,8 +33,19 @@ public class Shape {
 
 
 
+    public void undoMove(){
+        this.setStartPoint(this.getStartPoint().x -deltaX, this.getStartPoint().y -deltaY);
+        this.setEndPoint(this.getEndPoint().x -deltaX, this.getEndPoint().y -deltaY);
+    }
     public void redoMove(){
         this.setStartPoint(this.getStartPoint().x +deltaX, this.getStartPoint().y +deltaY);
+        this.setEndPoint(this.getEndPoint().x +deltaX, this.getEndPoint().y +deltaY);
+    }
+
+    public void move(int deltaX, int deltaY){
+        this.deltaX = deltaX;
+        this.deltaY = deltaY;
+        this.setStartPoint((this.getStartPoint().x)+deltaX, this.getStartPoint().y +deltaY);
         this.setEndPoint(this.getEndPoint().x +deltaX, this.getEndPoint().y +deltaY);
     }
 

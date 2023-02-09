@@ -1,10 +1,11 @@
 package controller;
 
+import controller.commands.MoveCommand;
+import controller.commands.SelectCommand;
 import controller.drawing.ColorPalette;
 import controller.drawing.Coordinate;
 import controller.drawing.ListForShapes;
 import controller.drawing.ShapeCreating;
-import model.MouseMode;
 import model.ShapeShadingType;
 import model.ShapeType;
 import model.persistence.ApplicationState;
@@ -42,6 +43,7 @@ public class MouseHandler extends MouseAdapter {
 
         ColorPalette primaryColorPalette = new ColorPalette(appState.getActivePrimaryColor());
         Color pColor = primaryColorPalette.getColor();
+
         ColorPalette secondaryColorPalette = new ColorPalette(appState.getActiveSecondaryColor());
         Color sColor = secondaryColorPalette.getColor();
 
@@ -50,18 +52,28 @@ public class MouseHandler extends MouseAdapter {
         ShapeType shapeType = appState.getActiveShapeType();
 
 
-        if (appState.getActiveMouseMode() == MouseMode.DRAW)
-        {
-            IEventCallback createShapeCommand = new ShapeCreating(appState, startCoordinate, endCoordinate, pColor,sColor, listForShapes, shadingType, shapeType);
-            createShapeCommand.run();
-        }
-        else
-        {
+        switch (appState.getActiveMouseMode()) {
+            case DRAW -> {
+                IEventCallback createShapeCommand = new ShapeCreating(appState, startCoordinate, endCoordinate, pColor, sColor, listForShapes, shadingType, shapeType);
+                createShapeCommand.run();
+            }
+            case SELECT -> {
+                IEventCallback selectShapeCommand = new SelectCommand(appState, startCoordinate, endCoordinate, listForShapes, paintCanvas);
+                selectShapeCommand.run();
+            }
+            case MOVE -> {
+                IEventCallback moveShapeCommand = new MoveCommand(appState, startCoordinate, endCoordinate, listForShapes);
+                moveShapeCommand.run();
+            }
 
-            IEventCallback createShapeCommand = new ShapeCreating(appState, startCoordinate, endCoordinate, pColor,sColor, listForShapes, shadingType, shapeType);
-            createShapeCommand.run();
+            //default:
+            //  IEventCallback createShapeCommandDefault = new ShapeCreating(appState, startCoordinate, endCoordinate, pColor, sColor, listForShapes, shadingType, shapeType);
+            // createShapeCommandDefault.run();
+            // break;
+
         }
 
     }
 
 }
+

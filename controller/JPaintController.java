@@ -1,8 +1,8 @@
 package controller;
 
 import controller.drawing.ListForShapes;
-import controller.drawing.Redo;
-import controller.drawing.Undo;
+import controller.commands.Redo;
+import controller.commands.Undo;
 import model.interfaces.IApplicationState;
 import view.EventName;
 import view.interfaces.IUiModule;
@@ -15,7 +15,6 @@ public class JPaintController implements IJPaintController {
     public JPaintController(IUiModule uiModule, IApplicationState applicationState, ListForShapes listForShapes) {
         this.uiModule = uiModule;
         this.applicationState = applicationState;
-        this.listForShapes = listForShapes;
     }
 
     @Override

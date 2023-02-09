@@ -13,6 +13,7 @@ public class ListForShapes {
     public static ArrayList<ShapeFrame> shapeList = new ArrayList<>();
     public static ArrayList<ShapeFrame> deletedShapeList = new ArrayList<>();
     public static ArrayList<ShapeFrame> selectedShapeList = new ArrayList<>();
+    public static ArrayList<ShapeFrame> deselectedShapeList = new ArrayList<>();
 
     private static PaintCanvas paintCanvas;
     public ApplicationState appState;
@@ -70,11 +71,17 @@ public class ListForShapes {
         }
     }
     public void addDeletedShapes(){
-        ShapeFrame dShape = deletedShapeList.get(deletedShapeList.size()-1);
         ShapeFrame d = deletedShapeList.remove(deletedShapeList.size()-1);
         shapeList.add(d);
         d.getShape().shapeSelected=true;
 
         shapeListDrawer(shapeList);
     }
+    public ArrayList<ShapeFrame> getSelectedShapeList(){
+        return selectedShapeList;
+    }
+    public ArrayList<ShapeFrame> getShapeList(){
+        return shapeList;
+    }
+
 }
