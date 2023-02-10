@@ -14,4 +14,17 @@ Points to be noted:
 Below is my Repo Link :
 https://github.com/Cjonnala/JavaPaintFinalProject
 
-Sprint 2: Implementing Various colors
+Sprint 2: 
+
+For this sprint I have implemented various colors, shading types and all three shapes (Rectangle,Ellipse,Triangle). I have also implemented Select and move operations.
+
+Points to be noted:
+•	If we do undo multiple time the shape is going out of the paint canvas, this bug will be fixed in coming sprints.
+
+
+ 
+
+
+
+
+
