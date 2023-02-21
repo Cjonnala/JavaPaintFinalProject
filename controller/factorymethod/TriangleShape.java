@@ -1,21 +1,24 @@
-package controller.drawing;
+package controller.factorymethod;
 
+import controller.drawing.Coordinate;
+import controller.drawing.Shape;
 import model.interfaces.ShapeFrame;
 
 import java.awt.*;
 
 final class TriangleShape implements ShapeFrame {
 
-    Shape shape;
+    controller.drawing.Shape shape;
 
-    TriangleShape(Shape shape) {
+    TriangleShape(controller.drawing.Shape shape) {
         this.shape = shape;
     }
 
     @Override
     public void draw(Graphics2D g) {
-        int[] xPoints = {shape.startCoordinate.getX(), shape.endCoordinate.getX(), shape.endCoordinate.getX()};
-        int[] yPoints = {shape.startCoordinate.getY(), shape.endCoordinate.getY(), shape.startCoordinate.getY()};
+        int[] xPoints = {shape.startCoordinate.getX(), shape.endCoordinate.getX(), shape.startCoordinate.getX()};
+        int[] yPoints = {shape.startCoordinate.getY(), shape.startCoordinate.getY(), shape.endCoordinate.getY()};
+
         g.setColor(shape.pColor);
 
         switch (shape.shadingType) {

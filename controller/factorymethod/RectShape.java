@@ -1,14 +1,16 @@
-package controller.drawing;
+package controller.factorymethod;
 
+import controller.drawing.Coordinate;
+import controller.drawing.Shape;
 import model.interfaces.ShapeFrame;
 
 import java.awt.*;
 
 final class RectShape implements ShapeFrame {
 
-    Shape shape;
+    controller.drawing.Shape shape;
 
-    RectShape(Shape shape){
+    RectShape(controller.drawing.Shape shape){
         this.shape = shape;
     }
 

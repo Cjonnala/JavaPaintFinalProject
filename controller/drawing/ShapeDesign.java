@@ -1,20 +1,19 @@
 package controller.drawing;
 
+import controller.factorymethod.*;
 import model.interfaces.ShapeFrame;
 
 public class ShapeDesign {
-
-    ShapeFrame shapeFrame;
-
     public ShapeFrame makeShape(Shape shape) {
-
-        switch (shape.shapeType) {
-            case RECTANGLE -> shapeFrame = new RectShape(shape);
-            case ELLIPSE -> shapeFrame = new EllipseShape(shape);
-            case TRIANGLE -> shapeFrame = new TriangleShape(shape);
-        }
-        return shapeFrame;
+        ShapeFactory factory = switch (shape.shapeType) {
+            case RECTANGLE -> new RectShapeFactory();
+            case ELLIPSE -> new EllipseShapeFactory();
+            case TRIANGLE -> new TriangleShapeFactory();
+           
+        };
+        return factory.createShapeFrame(shape);
     }
+
 }
 
 

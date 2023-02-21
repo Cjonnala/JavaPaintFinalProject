@@ -1,5 +1,7 @@
-package controller.drawing;
+package controller.factorymethod;
 
+import controller.drawing.Coordinate;
+import controller.drawing.Shape;
 import model.interfaces.ShapeFrame;
 import view.interfaces.IEventCallback;
 
@@ -7,9 +9,9 @@ import java.awt.*;
 
 final class EllipseShape implements ShapeFrame, IEventCallback {
 
-    Shape shape;
+    controller.drawing.Shape shape;
 
-    EllipseShape(Shape shape) {
+    EllipseShape(controller.drawing.Shape shape) {
         this.shape = shape;
     }
 
