@@ -71,4 +71,26 @@ public class Shape {
     public void shapeSelected(){
         shapeSelected = !shapeSelected;
     }
+    public ShapeType getShapeType() {
+        return shapeType;
+    }
+
+    public Coordinate getMinXY(){
+        int mouseStartX = Math.min(this.startCoordinate.getX(), this.endCoordinate.getX());
+        int mouseStartY = Math.min(this.startCoordinate.getY(), this.endCoordinate.getY());
+
+        return new Coordinate(mouseStartX,mouseStartY);
+    }
+
+    public int getWidth(){
+        int startX = Math.min(this.startCoordinate.getX(), this.endCoordinate.getX());
+        int endX = Math.max(this.startCoordinate.getX(), this.endCoordinate.getX());
+        return endX - startX;
+    }
+
+    public int getHeight(){
+        int startY = Math.min(this.startCoordinate.getY(), this.endCoordinate.getY());
+        int endY = Math.max(this.startCoordinate.getY(), this.endCoordinate.getY());
+        return endY - startY;
+    }
 }

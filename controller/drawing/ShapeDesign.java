@@ -9,7 +9,7 @@ public class ShapeDesign {
             case RECTANGLE -> new RectShapeFactory();
             case ELLIPSE -> new EllipseShapeFactory();
             case TRIANGLE -> new TriangleShapeFactory();
-           
+
         };
         return factory.createShapeFrame(shape);
     }

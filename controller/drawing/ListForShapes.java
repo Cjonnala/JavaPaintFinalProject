@@ -20,7 +20,7 @@ public class ListForShapes {
 
 
     public ListForShapes(PaintCanvasBase paintCanvas, ApplicationState appState) {
-        this.paintCanvas = (PaintCanvas) paintCanvas;
+        ListForShapes.paintCanvas = (PaintCanvas) paintCanvas;
         this.appState = appState;
     }
 
@@ -41,7 +41,15 @@ public class ListForShapes {
                 s.drawChildren(g);
             }
         }
+    if (selectedShapeList.size() > 0)
+    {
+        for (ShapeFrame z : selectedShapeList)
+        {
+            ShapeOutline shapeOutline = new ShapeOutline(paintCanvas);
+            shapeOutline.outlineShape(z);
+        }
     }
+}
     public void removeShape(){
         if(shapeList.size() == 0) {
             System.out.println("There's nothing in the list to remove!");
