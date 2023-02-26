@@ -21,6 +21,13 @@ For this sprint I have implemented various colors, shading types and all three s
 Points to be noted:
 •	If we do undo multiple time the shape is going out of the paint canvas, this bug will be fixed in coming sprints.
 
+Sprint 3:
+
+For this sprint I have implemented dashed outline for the shapes when they are selected. I have also implemented Copy, Paste and Delete Commands.
+
+Points to be noted:
+•	Multiple paste is not working when any shape is selected, this will be resolved in the next sprint.
+
 
  
 
