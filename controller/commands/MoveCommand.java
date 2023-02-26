@@ -30,7 +30,7 @@ public class MoveCommand implements IEventCallback, IUndoable {
             for(ShapeFrame s : listForShapes.getSelectedShapeList()){
                 s.getShape().move(deltaX,deltaY);
             }
-            listForShapes.shapeListDrawer(listForShapes.getShapeList());
+            listForShapes.shapeListDrawer(listForShapes.getShapeList(),listForShapes.getSelectedShapeList());
             CommandHistory.add(this);
         }
     }
@@ -41,7 +41,7 @@ public class MoveCommand implements IEventCallback, IUndoable {
         for(ShapeFrame s: listForShapes.getSelectedShapeList()){
             s.getShape().undoMove();
         }
-        listForShapes.shapeListDrawer(listForShapes.getShapeList());
+        listForShapes.shapeListDrawer(listForShapes.getShapeList(),listForShapes.getSelectedShapeList());
     }
 
     @Override
@@ -50,6 +50,6 @@ public class MoveCommand implements IEventCallback, IUndoable {
         for(ShapeFrame s: listForShapes.getSelectedShapeList()){
             s.getShape().redoMove();
         }
-        listForShapes.shapeListDrawer(listForShapes.getShapeList());
+        listForShapes.shapeListDrawer(listForShapes.getShapeList(),listForShapes.getSelectedShapeList());
     }
 }

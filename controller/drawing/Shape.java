@@ -13,9 +13,10 @@ public class Shape {
     public static Color sColor;
     public ShapeShadingType shadingType;
     public ShapeType shapeType;
-    ApplicationState appState;
+    public ApplicationState appState;
     public boolean shapeSelected = false;
     public boolean undoPerformered = false;
+    public boolean shapePasted = false;
 
     int deltaX;
     int deltaY;
@@ -100,6 +101,10 @@ public class Shape {
 
     public static Color getsColor(){
         return sColor;
+    }
+
+    public ShapeShadingType getShadingType() {
+        return shadingType;
     }
 }
 

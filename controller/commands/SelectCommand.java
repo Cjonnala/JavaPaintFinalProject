@@ -59,7 +59,7 @@ public class SelectCommand implements IEventCallback, IUndoable {
 
             }
         }
-        listForShapes.shapeListDrawer(myShapeList);
+        listForShapes.shapeListDrawer(myShapeList,mySelectedShapeList);
         CommandHistory.add(this);
 
     }
@@ -73,7 +73,7 @@ public class SelectCommand implements IEventCallback, IUndoable {
             d.getShape().shapeSelected=false;
         }
         selectedShapeList.clear();
-        listForShapes.shapeListDrawer(listForShapes.getShapeList());
+        listForShapes.shapeListDrawer(listForShapes.getShapeList(),listForShapes.getSelectedShapeList());
     }
 
     @Override
@@ -85,7 +85,7 @@ public class SelectCommand implements IEventCallback, IUndoable {
             d.getShape().shapeSelected=true;
         }
         deselectedShapeList.clear();
-        listForShapes.shapeListDrawer(listForShapes.getShapeList());
+        listForShapes.shapeListDrawer(listForShapes.getShapeList(),listForShapes.getSelectedShapeList());
 
     }
 }
