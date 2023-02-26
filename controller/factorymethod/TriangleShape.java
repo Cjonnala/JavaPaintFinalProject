@@ -3,43 +3,46 @@ package controller.factorymethod;
 import controller.drawing.Coordinate;
 import controller.drawing.Shape;
 import model.interfaces.ShapeFrame;
+import view.strategypattern.ShadingStrategy;
 
 import java.awt.*;
+import java.awt.geom.Path2D;
 
 final class TriangleShape implements ShapeFrame {
 
-    controller.drawing.Shape shape;
+    Shape shape;
+    ShadingStrategy shadingStrategy;
 
-    TriangleShape(controller.drawing.Shape shape) {
+    public TriangleShape(Shape shape, ShadingStrategy shadingStrategy) {
         this.shape = shape;
+        this.shadingStrategy = shadingStrategy;
     }
 
     @Override
     public void draw(Graphics2D g) {
-        int[] xPoints = {shape.startCoordinate.getX(), shape.endCoordinate.getX(), shape.startCoordinate.getX()};
-        int[] yPoints = {shape.startCoordinate.getY(), shape.startCoordinate.getY(), shape.endCoordinate.getY()};
 
-        g.setColor(shape.pColor);
+        Coordinate newCoordinate = new Coordinate(shape.startCoordinate.x, shape.endCoordinate.y);
 
-        switch (shape.shadingType) {
-            case FILLED_IN -> {
-                g.fillPolygon(xPoints, yPoints, 3);
-                g.setStroke(new BasicStroke(8));
-            }
-            case OUTLINE -> {
-                g.drawPolygon(xPoints, yPoints, 3);
-                g.setStroke(new BasicStroke(8));
-            }
-            case OUTLINE_AND_FILLED_IN -> {
-                g.setColor(shape.sColor);
-                g.drawPolygon(xPoints, yPoints, 3);
-                g.setStroke(new BasicStroke(8));
-                g.setColor(shape.pColor);
-                g.setStroke(new BasicStroke(8));
-                g.fillPolygon(xPoints, yPoints, 3);
-            }
-        }
+        int[] startArray = new int[3];
+        int[] endArray = new int[3];
 
+        startArray[0] = shape.startCoordinate.getX();
+        startArray[1] = shape.endCoordinate.getX();
+        startArray[2] = newCoordinate.getX();
+
+        endArray[0] = shape.startCoordinate.getY();
+        endArray[1] = shape.endCoordinate.getY();
+        endArray[2] =  newCoordinate.getY();
+
+        g.setColor(Shape.pColor);
+
+        Path2D path = new Path2D.Double();
+        path.moveTo(startArray[0], endArray[0]);
+        path.lineTo(startArray[1], endArray[1]);
+        path.lineTo(startArray[2], endArray[2]);
+        path.closePath();
+
+        shadingStrategy.draw(g, path);
     }
 
     @Override
@@ -57,6 +60,8 @@ final class TriangleShape implements ShapeFrame {
         return shape;
     }
 
+
+
     @Override
     public int getSize() {
         return 0;
@@ -66,4 +71,6 @@ final class TriangleShape implements ShapeFrame {
     public void drawChildren(Graphics2D g) {
 
     }
+
+
 }

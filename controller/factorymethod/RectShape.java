@@ -3,15 +3,18 @@ package controller.factorymethod;
 import controller.drawing.Coordinate;
 import controller.drawing.Shape;
 import model.interfaces.ShapeFrame;
+import view.strategypattern.ShadingStrategy;
 
 import java.awt.*;
 
 final class RectShape implements ShapeFrame {
 
-    controller.drawing.Shape shape;
 
-    RectShape(controller.drawing.Shape shape){
+    Shape shape;
+    ShadingStrategy shadingStrategy;
+    public RectShape(Shape shape, ShadingStrategy shadingStrategy){
         this.shape = shape;
+        this.shadingStrategy = shadingStrategy;
     }
 
     @Override
@@ -24,28 +27,8 @@ final class RectShape implements ShapeFrame {
 
         int width = endX - startX;
         int height = endY - startY;
-
-        g.setColor(shape.pColor);
-
-        switch (shape.shadingType) {
-            case FILLED_IN -> {
-                g.fillRect(startX, startY, width, height);
-                g.setColor(shape.pColor);
-                g.setStroke(new BasicStroke(8));
-            }
-            case OUTLINE -> {
-                g.setStroke(new BasicStroke(8));
-                g.setColor(shape.pColor);
-                g.drawRect(startX, startY, width, height);
-            }
-            case OUTLINE_AND_FILLED_IN -> {
-                g.setColor(shape.pColor);
-                g.fillRect(startX, startY, width, height);
-                g.setColor(shape.sColor);
-                g.setStroke(new BasicStroke(8));
-                g.drawRect(startX, startY, width, height);
-            }
-        }
+        g.setColor(Shape.pColor);
+        shadingStrategy.draw(g, new Rectangle(startX, startY, width, height));
     }
 
     @Override
@@ -72,6 +55,5 @@ final class RectShape implements ShapeFrame {
     public void drawChildren(Graphics2D g) {
 
     }
-
 
 }

@@ -4,15 +4,19 @@ import controller.drawing.Coordinate;
 import controller.drawing.Shape;
 import model.interfaces.ShapeFrame;
 import view.interfaces.IEventCallback;
+import view.strategypattern.ShadingStrategy;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
 final class EllipseShape implements ShapeFrame, IEventCallback {
 
-    controller.drawing.Shape shape;
+    Shape shape;
+    ShadingStrategy shadingStrategy;
 
-    EllipseShape(controller.drawing.Shape shape) {
+    EllipseShape(Shape shape, ShadingStrategy shadingStrategy) {
         this.shape = shape;
+        this.shadingStrategy = shadingStrategy;
     }
 
     @Override
@@ -24,27 +28,11 @@ final class EllipseShape implements ShapeFrame, IEventCallback {
         int endY = Math.max(shape.startCoordinate.getY(), shape.endCoordinate.getY());
         int width = endX - startX;
         int height = endY - startY;
-        g.setColor(shape.pColor);
+        g.setColor(Shape.pColor);
+        shadingStrategy.draw(g, new Ellipse2D.Double(startX, startY, width, height));
 
-        switch (shape.shadingType) {
-            case FILLED_IN -> {
-                g.fillOval(startX, startY, width, height);
-                g.setColor(shape.pColor);
-                g.setStroke(new BasicStroke(8));
-            }
-            case OUTLINE -> {
-                g.drawOval(startX, startY, width, height);
-                g.setStroke(new BasicStroke(8));
-            }
-            case OUTLINE_AND_FILLED_IN -> {
-                g.setColor(shape.pColor);
-                g.fillOval(startX, startY, width, height);
-                g.setColor(shape.sColor);
-                g.setStroke(new BasicStroke(8));
-                g.drawOval(startX, startY, width, height);
-            }
-        }
     }
+
     @Override
     public Coordinate getStartPoint() {
         return null;
@@ -60,7 +48,6 @@ final class EllipseShape implements ShapeFrame, IEventCallback {
         return shape;
     }
 
-
     @Override
     public int getSize() {
         return 0;
@@ -68,11 +55,9 @@ final class EllipseShape implements ShapeFrame, IEventCallback {
 
     @Override
     public void drawChildren(Graphics2D g) {
-
     }
 
     @Override
     public void run() {
-
     }
 }

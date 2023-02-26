@@ -9,8 +9,8 @@ import java.awt.*;
 public class Shape {
     public Coordinate startCoordinate;
     public Coordinate endCoordinate;
-    public Color pColor;
-    public Color sColor;
+    public static Color pColor;
+    public static Color sColor;
     public ShapeShadingType shadingType;
     public ShapeType shapeType;
     ApplicationState appState;
@@ -24,8 +24,8 @@ public class Shape {
         this.startCoordinate = startCoordinate;
         this.endCoordinate = endCoordinate;
         this.appState = appState;
-        this.pColor = pColor;
-        this.sColor = sColor;
+        Shape.pColor = pColor;
+        Shape.sColor = sColor;
         this.shadingType = shadingType;
         this.shapeType = shapeType;
     }
@@ -92,5 +92,14 @@ public class Shape {
         int startY = Math.min(this.startCoordinate.getY(), this.endCoordinate.getY());
         int endY = Math.max(this.startCoordinate.getY(), this.endCoordinate.getY());
         return endY - startY;
+
+    }
+    public static Color getpColor(){
+        return pColor;
+    }
+
+    public static Color getsColor(){
+        return sColor;
     }
 }
+
