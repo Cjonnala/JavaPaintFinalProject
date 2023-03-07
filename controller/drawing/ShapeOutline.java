@@ -40,4 +40,14 @@ public class ShapeOutline {
         }
 
     }
+    public void outlineGroup(ShapeFrame shapeFrame){
+        int groupWidth = shapeFrame.getGroup().getMaxXY().x - shapeFrame.getGroup().getMinXY().x;
+        int groupHeight = shapeFrame.getGroup().getMaxXY().y - shapeFrame.getGroup().getMinXY().y;
+
+        Graphics2D g = paintCanvas.getGraphics2D();
+        Stroke stroke = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1, new float[]{9}, 0);
+        g.setStroke(stroke);
+        g.setColor(Color.BLACK);
+        g.drawRect(shapeFrame.getGroup().getMinXY().x -5, shapeFrame.getGroup().getMinXY().y-5, groupWidth+10,groupHeight+10);
+    }
 }

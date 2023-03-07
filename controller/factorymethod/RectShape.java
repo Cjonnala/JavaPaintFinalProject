@@ -1,6 +1,7 @@
 package controller.factorymethod;
 
 import controller.drawing.Coordinate;
+import controller.drawing.GroupForShapes;
 import controller.drawing.Shape;
 import model.interfaces.ShapeFrame;
 import view.strategypattern.ShadingStrategy;
@@ -32,12 +33,12 @@ final class RectShape implements ShapeFrame {
     }
 
     @Override
-    public Coordinate getStartPoint() {
+    public Coordinate getStartCoordinate() {
         return null;
     }
 
     @Override
-    public Coordinate getEndPoint() {
+    public Coordinate getEndCoordinate() {
         return null;
     }
 
@@ -53,7 +54,16 @@ final class RectShape implements ShapeFrame {
 
     @Override
     public void drawChildren(Graphics2D g) {
+    }
 
+    @Override
+    public GroupForShapes getGroup() {
+        return null;
+    }
+
+    @Override
+    public boolean isGroup() {
+        return false;
     }
 
 }

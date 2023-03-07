@@ -1,6 +1,7 @@
 package controller.factorymethod;
 
 import controller.drawing.Coordinate;
+import controller.drawing.GroupForShapes;
 import controller.drawing.Shape;
 import model.interfaces.ShapeFrame;
 import view.interfaces.IEventCallback;
@@ -34,12 +35,12 @@ final class EllipseShape implements ShapeFrame, IEventCallback {
     }
 
     @Override
-    public Coordinate getStartPoint() {
+    public Coordinate getStartCoordinate() {
         return null;
     }
 
     @Override
-    public Coordinate getEndPoint() {
+    public Coordinate getEndCoordinate() {
         return null;
     }
 
@@ -55,6 +56,16 @@ final class EllipseShape implements ShapeFrame, IEventCallback {
 
     @Override
     public void drawChildren(Graphics2D g) {
+    }
+
+    @Override
+    public GroupForShapes getGroup() {
+        return null;
+    }
+
+    @Override
+    public boolean isGroup() {
+        return false;
     }
 
     @Override

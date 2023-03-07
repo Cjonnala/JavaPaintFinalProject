@@ -66,11 +66,6 @@ public class MouseHandler extends MouseAdapter {
                 moveShapeCommand.run();
             }
 
-            //default:
-            //  IEventCallback createShapeCommandDefault = new ShapeCreating(appState, startCoordinate, endCoordinate, pColor, sColor, listForShapes, shadingType, shapeType);
-            // createShapeCommandDefault.run();
-            // break;
-
         }
 
     }

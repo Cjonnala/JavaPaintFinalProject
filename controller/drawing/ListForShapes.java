@@ -17,6 +17,7 @@ public class ListForShapes {
     public static ArrayList<ShapeFrame> copiedShapeList = new ArrayList<>();
     public static ArrayList<ShapeFrame> pasteShapeList = new ArrayList<>();
     public static ArrayList<ShapeFrame> undoRedoList = new ArrayList<>();
+    public static ArrayList<ShapeFrame> groupList = new ArrayList<>();
 
     private static PaintCanvas paintCanvas;
     public ApplicationState appState;
@@ -33,23 +34,30 @@ public class ListForShapes {
     }
 
 
-    public void shapeListDrawer(ArrayList<ShapeFrame> shapeList,ArrayList<ShapeFrame> selectedShapeList) {
+    public void shapeListDrawer(ArrayList<ShapeFrame> shapeList, ArrayList<ShapeFrame> selectedShapeList){
 
         Graphics2D g = paintCanvas.getGraphics2D();
         g.setColor(Color.white);
-        g.fillRect(0, 0, 99999, 99999);
-        for (ShapeFrame s : shapeList) {
+        g.fillRect(0,0,9999,9999);
+        for (ShapeFrame s: shapeList){
             s.draw(g);
-            if (s.getSize() > 0) {
+            if(s.getSize()>0){
                 s.drawChildren(g);
             }
         }
-        if (selectedShapeList.size() > 0) {
-            for (ShapeFrame z : selectedShapeList) {
+        if(selectedShapeList.size()>0){
+            for (ShapeFrame z: selectedShapeList){
                 ShapeOutline shapeOutline = new ShapeOutline(paintCanvas);
-                shapeOutline.outlineShape(z);
+                if(z.isGroup()){
+                    shapeOutline.outlineGroup(z);
+                }
+                else {
+                    shapeOutline.outlineShape(z);
+                }
             }
         }
+
+//        CommandHistory.add(this);
     }
 
     public void removeShape() {
@@ -112,4 +120,5 @@ public class ListForShapes {
     public ArrayList<ShapeFrame> getUndoRedoList() {
         return undoRedoList;
     }
+    public ArrayList<ShapeFrame> getGroupList() { return groupList;}
 }

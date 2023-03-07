@@ -95,6 +95,14 @@ public class Shape {
         return endY - startY;
 
     }
+
+    public Coordinate getMaxXY(){
+        int mouseEndX = Math.max(this.startCoordinate.getX(), this.endCoordinate.getX());
+        int mouseEndY = Math.max(this.startCoordinate.getY(), this.endCoordinate.getY());
+
+        var coordinate = new Coordinate(mouseEndX,mouseEndY);
+        return coordinate;
+    }
     public static Color getpColor(){
         return pColor;
     }
