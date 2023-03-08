@@ -24,14 +24,14 @@ public class ShapeOutline {
                 case ELLIPSE ->
                         g2d.drawOval(shapeFrame.getShape().getMinXY().x - 5, shapeFrame.getShape().getMinXY().y - 5, shapeFrame.getShape().getWidth() + 10, shapeFrame.getShape().getHeight() + 10);
                 case TRIANGLE -> {
-                    Point newPoint = new Point(shapeFrame.getShape().getStartPoint().x, shapeFrame.getShape().getEndPoint().y);
+                    Point newPoint = new Point(shapeFrame.getShape().getStartCoordinate().x, shapeFrame.getShape().getEndCoordinate().y);
                     int[] begin = new int[3];
                     int[] finish = new int[3];
-                    begin[0] = shapeFrame.getShape().getStartPoint().getX();
-                    begin[1] = shapeFrame.getShape().getEndPoint().getX();
+                    begin[0] = shapeFrame.getShape().getStartCoordinate().getX();
+                    begin[1] = shapeFrame.getShape().getEndCoordinate().getX();
                     begin[2] = (int) newPoint.getX();
-                    finish[0] = shapeFrame.getShape().getStartPoint().getY();
-                    finish[1] = shapeFrame.getShape().getEndPoint().getY();
+                    finish[0] = shapeFrame.getShape().getStartCoordinate().getY();
+                    finish[1] = shapeFrame.getShape().getEndCoordinate().getY();
                     finish[2] = (int) newPoint.getY();
                     g2d.drawPolygon(begin, finish, 3);
                 }
@@ -41,8 +41,8 @@ public class ShapeOutline {
 
     }
     public void outlineGroup(ShapeFrame shapeFrame){
-        int groupWidth = shapeFrame.getGroup().getMaxXY().x - shapeFrame.getGroup().getMinXY().x;
-        int groupHeight = shapeFrame.getGroup().getMaxXY().y - shapeFrame.getGroup().getMinXY().y;
+        int groupWidth = shapeFrame.getGroup().getMaximumCoordXY().x - shapeFrame.getGroup().getMinXY().x;
+        int groupHeight = shapeFrame.getGroup().getMaximumCoordXY().y - shapeFrame.getGroup().getMinXY().y;
 
         Graphics2D g = paintCanvas.getGraphics2D();
         Stroke stroke = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1, new float[]{9}, 0);

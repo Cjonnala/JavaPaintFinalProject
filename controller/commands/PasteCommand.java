@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class PasteCommand implements IEventCallback, IUndoable {
 
     private final ListForShapes listForShapes;
-    public int pasteNum;
+    public int pasteCount;
 
 
 
@@ -23,25 +23,39 @@ public class PasteCommand implements IEventCallback, IUndoable {
 
     @Override
     public void run() {
-        pasteNum=0;
+        pasteCount =0;
 
         ArrayList<ShapeFrame> copiedShapeList = listForShapes.getCopiedShapeList();
         ArrayList<ShapeFrame> pasteShapeList = listForShapes.getPasteShapeList();
 
-        for(ShapeFrame s: pasteShapeList){
-            s.getShape().shapePasted=false;
+        for(ShapeFrame shapeFrame: pasteShapeList){
+            shapeFrame.getShape().shapePasted=false;
         }
 
-        for(ShapeFrame s: copiedShapeList){
-            int x1 = s.getShape().getStartPoint().x - 100;
-            int y1 = s.getShape().getStartPoint().y - 100;
-            int x2 = s.getShape().getEndPoint().x -100;
-            int y2 = s.getShape().getEndPoint().y - 100;
-            Coordinate s2SCoordinate = new Coordinate(x1,y1);
-            Coordinate s2ECoordinate = new Coordinate(x2,y2);
-            IEventCallback createShapeCommand = new ShapeCreating(s.getShape().appState, s2SCoordinate, s2ECoordinate,s.getShape().getpColor(), s.getShape().getsColor(),listForShapes, s.getShape().getShadingType(), s.getShape().getShapeType());
-            createShapeCommand.run();
-            pasteNum++;
+        for(ShapeFrame shapeFrame: copiedShapeList) {
+            if (!shapeFrame.isGroup()) {
+                int x1 = shapeFrame.getShape().getStartCoordinate().x - 100;
+                int y1 = shapeFrame.getShape().getStartCoordinate().y - 100;
+                int x2 = shapeFrame.getShape().getEndCoordinate().x - 100;
+                int y2 = shapeFrame.getShape().getEndCoordinate().y - 100;
+                Coordinate coordinateX = new Coordinate(x1, y1);
+                Coordinate coordinateY = new Coordinate(x2, y2);
+                IEventCallback createShapeCommand = new ShapeCreating(shapeFrame.getShape().appState, coordinateX, coordinateY, shapeFrame.getShape().getpColor(), shapeFrame.getShape().getsColor(), listForShapes, shapeFrame.getShape().getShadingType(), shapeFrame.getShape().getShapeType());
+                createShapeCommand.run();
+                pasteCount++;
+            } else {
+                for (ShapeFrame shapeFrame1 : shapeFrame.getGroup().groupedSubshapes) {
+                    int i1 = shapeFrame1.getShape().getStartCoordinate().x - 100;
+                    int j1 = shapeFrame1.getShape().getStartCoordinate().y - 100;
+                    int i2 = shapeFrame1.getShape().getEndCoordinate().x - 100;
+                    int j2 = shapeFrame1.getShape().getEndCoordinate().y - 100;
+                    Coordinate coordinateX1 = new Coordinate(i1, j1);
+                    Coordinate coordinateX2 = new Coordinate(i2, j2);
+                    IEventCallback createShapeCommand = new ShapeCreating(shapeFrame1.getShape().appState, coordinateX1, coordinateX2, shapeFrame1.getShape().getpColor(), shapeFrame1.getShape().getsColor(), listForShapes, shapeFrame1.getShape().getShadingType(), shapeFrame1.getShape().getShapeType());
+                    createShapeCommand.run();
+                    pasteCount++;
+                }
+            }
         }
 
         CommandHistory.add(this);
@@ -49,36 +63,39 @@ public class PasteCommand implements IEventCallback, IUndoable {
 
     @Override
     public void undo() {
-        ArrayList<ShapeFrame> mainShapeList = listForShapes.getShapeList();
+        ArrayList<ShapeFrame> masterShapeList = listForShapes.getShapeList();
         ArrayList<ShapeFrame> undoRedoList = listForShapes.getUndoRedoList();
 
-        if(mainShapeList.size() == 0) { return; }
+        if(masterShapeList.size() == 0) {
+            return;
+        }
 
-        while(pasteNum!=0){
-            ShapeFrame lastShape = mainShapeList.get(mainShapeList.size()-1);
-            mainShapeList.remove(lastShape);
+        while(pasteCount !=0){
+            ShapeFrame lastShape = masterShapeList.get(masterShapeList.size()-1);
+            masterShapeList.remove(lastShape);
             undoRedoList.add(lastShape);
-            listForShapes.shapeListDrawer(mainShapeList, listForShapes.getSelectedShapeList());
-            pasteNum--;
+            listForShapes.shapeListDrawer(masterShapeList, listForShapes.getSelectedShapeList());
+            pasteCount--;
         }
     }
 
     @Override
     public void redo() {
 
-        ArrayList<ShapeFrame> mainShapeList = listForShapes.getShapeList();
+        ArrayList<ShapeFrame> masterShapeList = listForShapes.getShapeList();
         ArrayList<ShapeFrame> undoRedoList = listForShapes.getUndoRedoList();
 
-        if(mainShapeList.size() == 0) {
+        if(masterShapeList.size() == 0) {
+            return;
         }
         else{
 
             while(undoRedoList.size()!=0) {
                 ShapeFrame lastShape = undoRedoList.get(undoRedoList.size() - 1);
                 undoRedoList.remove(lastShape);
-                mainShapeList.add(lastShape);
-                listForShapes.shapeListDrawer(mainShapeList, listForShapes.getSelectedShapeList());
-                pasteNum++;
+                masterShapeList.add(lastShape);
+                listForShapes.shapeListDrawer(masterShapeList, listForShapes.getSelectedShapeList());
+                pasteCount++;
             }
         }
     }

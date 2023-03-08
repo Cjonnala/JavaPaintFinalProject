@@ -35,36 +35,36 @@ public class Shape {
 
 
     public void undoMove(){
-        this.setStartPoint(this.getStartPoint().x -deltaX, this.getStartPoint().y -deltaY);
-        this.setEndPoint(this.getEndPoint().x -deltaX, this.getEndPoint().y -deltaY);
+        this.setStartCoordinate(this.getStartCoordinate().x -deltaX, this.getStartCoordinate().y -deltaY);
+        this.setEndCoordinate(this.getEndCoordinate().x -deltaX, this.getEndCoordinate().y -deltaY);
     }
     public void redoMove(){
-        this.setStartPoint(this.getStartPoint().x +deltaX, this.getStartPoint().y +deltaY);
-        this.setEndPoint(this.getEndPoint().x +deltaX, this.getEndPoint().y +deltaY);
+        this.setStartCoordinate(this.getStartCoordinate().x +deltaX, this.getStartCoordinate().y +deltaY);
+        this.setEndCoordinate(this.getEndCoordinate().x +deltaX, this.getEndCoordinate().y +deltaY);
     }
 
     public void move(int deltaX, int deltaY){
         this.deltaX = deltaX;
         this.deltaY = deltaY;
-        this.setStartPoint((this.getStartPoint().x)+deltaX, this.getStartPoint().y +deltaY);
-        this.setEndPoint(this.getEndPoint().x +deltaX, this.getEndPoint().y +deltaY);
+        this.setStartCoordinate((this.getStartCoordinate().x)+deltaX, this.getStartCoordinate().y +deltaY);
+        this.setEndCoordinate(this.getEndCoordinate().x +deltaX, this.getEndCoordinate().y +deltaY);
     }
 
 
-    public Coordinate getStartPoint() {
+    public Coordinate getStartCoordinate() {
         return startCoordinate;
     }
 
-    public Coordinate getEndPoint() {
+    public Coordinate getEndCoordinate() {
         return endCoordinate;
     }
 
-    public void setStartPoint(int x, int y) {
+    public void setStartCoordinate(int x, int y) {
         this.startCoordinate.x = x;
         this.startCoordinate.y = y;
     }
 
-    public void setEndPoint(int x, int y) {
+    public void setEndCoordinate(int x, int y) {
         this.endCoordinate.x = x;
         this.endCoordinate.y = y;
     }
@@ -96,12 +96,11 @@ public class Shape {
 
     }
 
-    public Coordinate getMaxXY(){
+    public Coordinate getMaximumCoordXY(){
         int mouseEndX = Math.max(this.startCoordinate.getX(), this.endCoordinate.getX());
         int mouseEndY = Math.max(this.startCoordinate.getY(), this.endCoordinate.getY());
 
-        var coordinate = new Coordinate(mouseEndX,mouseEndY);
-        return coordinate;
+        return new Coordinate(mouseEndX,mouseEndY);
     }
     public static Color getpColor(){
         return pColor;

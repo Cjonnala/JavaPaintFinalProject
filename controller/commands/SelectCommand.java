@@ -42,10 +42,10 @@ public class SelectCommand implements IEventCallback, IUndoable {
 
         for (ShapeFrame s : myShapeList) {
 
-            int shapeStartX = Math.min(s.getShape().getStartPoint().getX(), s.getShape().getEndPoint().getX());
-            int shapeEndX = Math.max(s.getShape().getStartPoint().getX(), s.getShape().getEndPoint().getX());
-            int shapeStartY = Math.min(s.getShape().getStartPoint().getY(), s.getShape().getEndPoint().getY());
-            int shapeEndY = Math.max(s.getShape().getStartPoint().getY(), s.getShape().getEndPoint().getY());
+            int shapeStartX = Math.min(s.getShape().getStartCoordinate().getX(), s.getShape().getEndCoordinate().getX());
+            int shapeEndX = Math.max(s.getShape().getStartCoordinate().getX(), s.getShape().getEndCoordinate().getX());
+            int shapeStartY = Math.min(s.getShape().getStartCoordinate().getY(), s.getShape().getEndCoordinate().getY());
+            int shapeEndY = Math.max(s.getShape().getStartCoordinate().getY(), s.getShape().getEndCoordinate().getY());
 
             int shapeWidth = shapeEndX - shapeStartX;
             int shapeHeight = shapeEndY - shapeStartY;
