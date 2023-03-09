@@ -8,21 +8,20 @@ import view.interfaces.IEventCallback;
 import view.strategypattern.ShadingStrategy;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
+import java.awt.geom.Arc2D;
 
-final class EllipseShape implements ShapeFrame, IEventCallback {
+final class SemiCircleShape implements ShapeFrame, IEventCallback {
 
     Shape shape;
     ShadingStrategy shadingStrategy;
 
-    EllipseShape(Shape shape, ShadingStrategy shadingStrategy) {
+    SemiCircleShape(Shape shape, ShadingStrategy shadingStrategy) {
         this.shape = shape;
         this.shadingStrategy = shadingStrategy;
     }
 
     @Override
     public void draw(Graphics2D g) {
-
         int startX = Math.min(shape.startCoordinate.getX(), shape.endCoordinate.getX());
         int endX = Math.max(shape.startCoordinate.getX(), shape.endCoordinate.getX());
         int startY = Math.min(shape.startCoordinate.getY(), shape.endCoordinate.getY());
@@ -30,18 +29,17 @@ final class EllipseShape implements ShapeFrame, IEventCallback {
         int width = endX - startX;
         int height = endY - startY;
         g.setColor(Shape.primaryColor);
-        shadingStrategy.draw(g, new Ellipse2D.Double(startX, startY, width, height));
-
+        shadingStrategy.draw(g, new Arc2D.Double(startX, startY, width, height, 90, 180, Arc2D.OPEN));
     }
 
     @Override
     public Coordinate getStartCoordinate() {
-        return null;
+        return shape.startCoordinate;
     }
 
     @Override
     public Coordinate getEndCoordinate() {
-        return null;
+        return shape.endCoordinate;
     }
 
     @Override

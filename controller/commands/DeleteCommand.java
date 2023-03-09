@@ -1,3 +1,5 @@
+//Jonnala Chaitanya Lakshmi
+//This class is created to implement the delete functionality for the selected shapes in the paint canvas application
 package controller.commands;
 
 import controller.drawing.CommandHistory;
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 public class DeleteCommand implements IEventCallback, IUndoable {
 
     private final ListForShapes listForShapes;
-    int deleteNum;
+    int deleteShapeCount;
 
 
     public DeleteCommand(ListForShapes listForShapes){
@@ -21,71 +23,81 @@ public class DeleteCommand implements IEventCallback, IUndoable {
 
     @Override
     public void run() {
-        ArrayList<ShapeFrame> myShapeList = listForShapes.getShapeList();
-        ArrayList<ShapeFrame> mySelectedShapeList = listForShapes.getSelectedShapeList();
-        ArrayList<ShapeFrame> deletedShapeList = listForShapes.getDeletedShapeList();
+        ArrayList<ShapeFrame> shapesList = listForShapes.getShapesList();
+        ArrayList<ShapeFrame> listOfSelectedShapes = listForShapes.getListofSelectedShapes();
+        ArrayList<ShapeFrame> listOfDeletedShapes = listForShapes.getListofDeletedShapes();
 
-        if (mySelectedShapeList.isEmpty()) {
+        if (listOfSelectedShapes.isEmpty()) {
             System.out.println("The SelectShapeList is empty! Nothing to delete");
             return;
         }
 
-        for (int i = mySelectedShapeList.size() - 1; i >= 0; i--) {
-            ShapeFrame s = mySelectedShapeList.get(i);
+        for (int i = listOfSelectedShapes.size() - 1; i >= 0; i--) {
+            ShapeFrame shapeFrame = listOfSelectedShapes.get(i);
 
-            myShapeList.remove(s);
-            deletedShapeList.add(s);
+            shapesList.remove(shapeFrame);
+            listOfDeletedShapes.add(shapeFrame);
 
-            if (s.getSize() == 0) {
-                s.getShape().shapeSelected = false;
+            if (shapeFrame.gettheSize() == 0) {
+                shapeFrame.gettheShape().selectedShape = false;
             }
 
-            deleteNum++;
+            deleteShapeCount++;
         }
 
-        mySelectedShapeList.clear();
-        listForShapes.shapeListDrawer(myShapeList, mySelectedShapeList);
+        listOfSelectedShapes.clear();
+        listForShapes.drawerForShapesList(shapesList, listOfSelectedShapes);
         CommandHistory.add(this);
     }
 
-
+//undo for the delete functionality
     @Override
     public void undo() {
-        ArrayList<ShapeFrame> mainShapeList = listForShapes.getShapeList();
-        ArrayList<ShapeFrame> mySelectedShapeList = listForShapes.getSelectedShapeList();
-        ArrayList<ShapeFrame> deletedShapeList = listForShapes.getDeletedShapeList();
+        ArrayList<ShapeFrame> mainShapeList = listForShapes.getShapesList();
+        ArrayList<ShapeFrame> mySelectedShapeList = listForShapes.getListofSelectedShapes();
+        ArrayList<ShapeFrame> deletedShapeList = listForShapes.getListofDeletedShapes();
 
-        if (deleteNum == 0) {
-            deleteNum = deletedShapeList.size();
+        if (deleteShapeCount == 0) {
+            deleteShapeCount = deletedShapeList.size();
         }
 
-        for (int i = 0; i < deleteNum && !deletedShapeList.isEmpty(); i++) {
-            ShapeFrame lastShape = deletedShapeList.remove(deletedShapeList.size() - 1);
-            lastShape.getShape().shapeSelected = true;
-            mainShapeList.add(lastShape);
-            mySelectedShapeList.add(lastShape);
+        for (int i = 0; i < deleteShapeCount && !deletedShapeList.isEmpty(); i++) {
+            ShapeFrame finalShape = deletedShapeList.remove(deletedShapeList.size() - 1);
+            mainShapeList.add(finalShape);
+            mySelectedShapeList.add(finalShape);
+            if(finalShape.isGroup()){
+                finalShape.gettheGroup().selectedGroup=true;
+            }
+            else{
+                finalShape.gettheShape().selectedShape=true;
+            }
         }
 
-        listForShapes.shapeListDrawer(mainShapeList, mySelectedShapeList);
+        listForShapes.drawerForShapesList(mainShapeList, mySelectedShapeList);
     }
 
 
-
+    //redo for the delete functionality
     @Override
     public void redo() {
-        ArrayList<ShapeFrame> mainShapeList = listForShapes.getShapeList();
-        ArrayList<ShapeFrame> mySelectedShapeList = listForShapes.getSelectedShapeList();
-        ArrayList<ShapeFrame> deletedShapeList = listForShapes.getDeletedShapeList();
+        ArrayList<ShapeFrame> mainShapeList = listForShapes.getShapesList();
+        ArrayList<ShapeFrame> selectedShapes = listForShapes.getListofSelectedShapes();
+        ArrayList<ShapeFrame> listofDeletedShapes = listForShapes.getListofDeletedShapes();
 
-        for (int i = 0; i < deleteNum && !deletedShapeList.isEmpty(); i++) {
-            ShapeFrame lastShape = deletedShapeList.remove(deletedShapeList.size() - 1);
-            lastShape.getShape().shapeSelected = false;
-            mainShapeList.add(lastShape);
+        for (int i = 0; i < deleteShapeCount && !listofDeletedShapes.isEmpty(); i++) {
+            ShapeFrame finalShape = listofDeletedShapes.remove(listofDeletedShapes.size() - 1);
+            mainShapeList.add(finalShape);
+            if(finalShape.isGroup()){
+                finalShape.gettheGroup().selectedGroup=true;
+            }
+            else{
+                finalShape.gettheShape().selectedShape=true;
+            }
         }
 
-        mySelectedShapeList.clear();
-        listForShapes.shapeListDrawer(mainShapeList, mySelectedShapeList);
-        deleteNum--;
+        selectedShapes.clear();
+        listForShapes.drawerForShapesList(mainShapeList, selectedShapes);
+        deleteShapeCount--;
     }
 
 

@@ -3,5 +3,10 @@ package model;
 public enum ShapeType {
     ELLIPSE,
     RECTANGLE,
-    TRIANGLE
-}
+    TRIANGLE,
+    SEMI_CIRCLE,
+    PENTAGON,
+    RHOMBUS,
+    DROPLET
+
+    }

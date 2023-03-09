@@ -1,3 +1,5 @@
+//Jonnala Chaitanya Lakshmi
+//This class is created to implement the copy functionality in the paint canvas application
 package controller.commands;
 
 import controller.drawing.CommandHistory;
@@ -18,29 +20,30 @@ public class CopyCommand implements IEventCallback, IUndoable {
     @Override
     public void run() {
 
-        ArrayList<ShapeFrame> selectedShapeList = listForShapes.getSelectedShapeList();
-        ArrayList<ShapeFrame> copiedlist = listForShapes.getCopiedShapeList();
-        copiedlist.clear();
-        listForShapes.getPasteShapeList().clear();
+        ArrayList<ShapeFrame> listofSelectedShapes = listForShapes.getListofSelectedShapes();
+        ArrayList<ShapeFrame> listofCopiedShapes = listForShapes.getListofCopiedShapes();
+        listofCopiedShapes.clear();
+        listForShapes.getListofPastedShapes().clear();
 
-        copiedlist.addAll(selectedShapeList);
+        listofCopiedShapes.addAll(listofSelectedShapes);
+
         CommandHistory.add(this);
     }
-
+//undo for the copy command
     @Override
     public void undo() {
-        ArrayList<ShapeFrame> selectedShapeList = listForShapes.getSelectedShapeList();
-        ArrayList<ShapeFrame> copiedlist = listForShapes.getCopiedShapeList();
+        ArrayList<ShapeFrame> listOfSelectedShapes = listForShapes.getListofSelectedShapes();
+        ArrayList<ShapeFrame> listOfCopiedShapes = listForShapes.getListofCopiedShapes();
 
-        selectedShapeList.addAll(copiedlist);
-        copiedlist.clear();
+        listOfSelectedShapes.addAll(listOfCopiedShapes);
+        listOfCopiedShapes.clear();
     }
-
+//redo for the copy command
     @Override
     public void redo() {
-        ArrayList<ShapeFrame> selectedShapeList = listForShapes.getSelectedShapeList();
-        ArrayList<ShapeFrame> copiedlist = listForShapes.getCopiedShapeList();
+        ArrayList<ShapeFrame> listofSelectedShapes = listForShapes.getListofSelectedShapes();
+        ArrayList<ShapeFrame> listofCopiedShapes = listForShapes.getListofCopiedShapes();
 
-        copiedlist.addAll(selectedShapeList);
+        listofCopiedShapes.addAll(listofSelectedShapes);
     }
 }

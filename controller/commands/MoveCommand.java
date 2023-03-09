@@ -25,42 +25,42 @@ public class MoveCommand implements IEventCallback, IUndoable {
     @Override
     public void run() {
 
-        if (listForShapes.getSelectedShapeList().size()>0){
-            for(ShapeFrame shapeFrame : listForShapes.getSelectedShapeList()) {
-                if (shapeFrame.getSize() > 0) {
-                    shapeFrame.getGroup().moveGroupedSubShapes(newCoordinateX, newCoordinateY);
+        if (listForShapes.getListofSelectedShapes().size()>0){
+            for(ShapeFrame shapeFrame : listForShapes.getListofSelectedShapes()) {
+                if (shapeFrame.gettheSize() > 0) {
+                    shapeFrame.gettheGroup().moveGroupedSubShapes(newCoordinateX, newCoordinateY);
                 } else {
-                    shapeFrame.getShape().move(newCoordinateX, newCoordinateY);
+                    shapeFrame.gettheShape().move(newCoordinateX, newCoordinateY);
                 }
             }
-            listForShapes.shapeListDrawer(listForShapes.getShapeList(),listForShapes.getSelectedShapeList());
+            listForShapes.drawerForShapesList(listForShapes.getShapesList(),listForShapes.getListofSelectedShapes());
             CommandHistory.add(this);
         }
     }
 
     @Override
     public void undo() {
-        listForShapes.getSelectedShapeList();
-        for(ShapeFrame shapeFrame1: listForShapes.getSelectedShapeList()) {
-            if (shapeFrame1.getSize() > 0) {
-                shapeFrame1.getGroup().undoMovedGroupShapes();
+        listForShapes.getListofSelectedShapes();
+        for(ShapeFrame shapeFrame1: listForShapes.getListofSelectedShapes()) {
+            if (shapeFrame1.gettheSize() > 0) {
+                shapeFrame1.gettheGroup().undoMovedGroupShapes();
             } else {
-                shapeFrame1.getShape().undoMove();
+                shapeFrame1.gettheShape().undoMove();
             }
         }
-        listForShapes.shapeListDrawer(listForShapes.getShapeList(),listForShapes.getSelectedShapeList());
+        listForShapes.drawerForShapesList(listForShapes.getShapesList(),listForShapes.getListofSelectedShapes());
     }
 
     @Override
     public void redo() {
-        listForShapes.getSelectedShapeList();
-        for(ShapeFrame shapeFrame2: listForShapes.getSelectedShapeList()) {
-            if (shapeFrame2.getSize() > 0) {
-                shapeFrame2.getGroup().redoMovedGroupShapes();
+        listForShapes.getListofSelectedShapes();
+        for(ShapeFrame shapeFrame2: listForShapes.getListofSelectedShapes()) {
+            if (shapeFrame2.gettheSize() > 0) {
+                shapeFrame2.gettheGroup().redoMovedGroupShapes();
             } else {
-                shapeFrame2.getShape().redoMove();
+                shapeFrame2.gettheShape().redoMove();
             }
         }
-        listForShapes.shapeListDrawer(listForShapes.getShapeList(),listForShapes.getSelectedShapeList());
+        listForShapes.drawerForShapesList(listForShapes.getShapesList(),listForShapes.getListofSelectedShapes());
     }
 }

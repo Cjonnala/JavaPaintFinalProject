@@ -7,31 +7,33 @@ import model.persistence.ApplicationState;
 import java.awt.*;
 
 public class Shape {
-    public Coordinate startCoordinate;
-    public Coordinate endCoordinate;
-    public static Color pColor;
-    public static Color sColor;
-    public ShapeShadingType shadingType;
     public ShapeType shapeType;
+
+    public Coordinate startCoordinate;
+
+    public Coordinate endCoordinate;
     public ApplicationState appState;
-    public boolean shapeSelected = false;
-    public boolean undoPerformered = false;
-    public boolean shapePasted = false;
+
+    public static Color primaryColor;
+    public static Color secondaryColor;
+
+    public boolean selectedShape = false;
+    public boolean undoDone = false;
+    public ShapeShadingType shadingType;
+    public boolean pastedShape = false;
 
     int deltaX;
     int deltaY;
 
-    Shape(Coordinate startCoordinate, Coordinate endCoordinate, ApplicationState appState, Color pColor ,Color sColor, ShapeShadingType shadingType, ShapeType shapeType) {
+    Shape(Coordinate startCoordinate, Coordinate endCoordinate, ApplicationState appState, Color primaryColor, Color secondaryColor, ShapeShadingType shadingType, ShapeType shapeType) {
         this.startCoordinate = startCoordinate;
         this.endCoordinate = endCoordinate;
         this.appState = appState;
-        Shape.pColor = pColor;
-        Shape.sColor = sColor;
+        Shape.primaryColor = primaryColor;
+        Shape.secondaryColor = secondaryColor;
         this.shadingType = shadingType;
         this.shapeType = shapeType;
     }
-
-
 
 
     public void undoMove(){
@@ -55,9 +57,7 @@ public class Shape {
         return startCoordinate;
     }
 
-    public Coordinate getEndCoordinate() {
-        return endCoordinate;
-    }
+    public Coordinate getEndCoordinate() {return endCoordinate;}
 
     public void setStartCoordinate(int x, int y) {
         this.startCoordinate.x = x;
@@ -70,13 +70,13 @@ public class Shape {
     }
 
     public void shapeSelected(){
-        shapeSelected = !shapeSelected;
+        selectedShape = !selectedShape;
     }
     public ShapeType getShapeType() {
         return shapeType;
     }
 
-    public Coordinate getMinXY(){
+    public Coordinate getMinimumXY(){
         int mouseStartX = Math.min(this.startCoordinate.getX(), this.endCoordinate.getX());
         int mouseStartY = Math.min(this.startCoordinate.getY(), this.endCoordinate.getY());
 
@@ -96,18 +96,18 @@ public class Shape {
 
     }
 
-    public Coordinate getMaximumCoordXY(){
+    public Coordinate getMaximumXY(){
         int mouseEndX = Math.max(this.startCoordinate.getX(), this.endCoordinate.getX());
         int mouseEndY = Math.max(this.startCoordinate.getY(), this.endCoordinate.getY());
 
         return new Coordinate(mouseEndX,mouseEndY);
     }
-    public static Color getpColor(){
-        return pColor;
+    public static Color getPrimaryColor(){
+        return primaryColor;
     }
 
-    public static Color getsColor(){
-        return sColor;
+    public static Color getSecondaryColor(){
+        return secondaryColor;
     }
 
     public ShapeShadingType getShadingType() {

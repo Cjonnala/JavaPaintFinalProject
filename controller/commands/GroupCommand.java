@@ -1,3 +1,5 @@
+//Jonnala Chaitanya Lakshmi
+//This class is created to implement the group functionality for the selected shapes in the paint canvas application
 package controller.commands;
 
 import controller.drawing.CommandHistory;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 public class GroupCommand implements IEventCallback, IUndoable {
 
     ListForShapes listforShapes;
-    GroupForShapes shapeGroup;
+    GroupForShapes groupShape;
     int countSubShapes;
 
 
@@ -22,31 +24,31 @@ public class GroupCommand implements IEventCallback, IUndoable {
 
     @Override
     public void run() {
-        ArrayList<ShapeFrame> masterShapeList = listforShapes.getShapeList();
-        ArrayList<ShapeFrame> selectedShapes = listforShapes.getSelectedShapeList();
-        ArrayList<ShapeFrame> shapesGroupList = listforShapes.getGroupList();
-        if(selectedShapes.size()!= 0){
-            shapeGroup = new GroupForShapes();
-            shapesGroupList.add(shapeGroup);
-            for(ShapeFrame shapeFrame : selectedShapes){
-                masterShapeList.remove(shapeFrame);
+        ArrayList<ShapeFrame> shapesList = listforShapes.getShapesList();
+        ArrayList<ShapeFrame> listofSelectedShapes = listforShapes.getListofSelectedShapes();
+        ArrayList<ShapeFrame> listofGroup = listforShapes.getListofGroup();
+        if(listofSelectedShapes.size()!= 0){
+            groupShape = new GroupForShapes();
+            listofGroup.add(groupShape);
+            for(ShapeFrame shapeFrame : listofSelectedShapes){
+                shapesList.remove(shapeFrame);
                 if(!shapeFrame.isGroup()){
-                    shapeGroup.addChild(shapeFrame);
-                    shapeFrame.getShape().shapeSelected=false;
+                    groupShape.addChild(shapeFrame);
+                    shapeFrame.gettheShape().selectedShape =false;
                     countSubShapes++;
                 }
                 else if(shapeFrame.isGroup()){
-                    shapeFrame.getGroup().groupSelected=false;
-                    shapeGroup.addChild(shapeFrame);
+                    shapeFrame.gettheGroup().selectedGroup =false;
+                    groupShape.addChild(shapeFrame);
                     countSubShapes++;
                 }
 
             }
-            masterShapeList.add(shapeGroup);
-            selectedShapes.clear();
-            selectedShapes.add(shapeGroup);
+            shapesList.add(groupShape);
+            listofSelectedShapes.clear();
+            listofSelectedShapes.add(groupShape);
         }
-        listforShapes.shapeListDrawer(masterShapeList,selectedShapes);
+        listforShapes.drawerForShapesList(shapesList,listofSelectedShapes);
 
         CommandHistory.add(this);
     }
@@ -54,45 +56,45 @@ public class GroupCommand implements IEventCallback, IUndoable {
     @Override
     public void undo() {
 
-        ArrayList<ShapeFrame> selectedShapeList = listforShapes.getSelectedShapeList();
-        ArrayList<ShapeFrame> masterShapeList = listforShapes.getShapeList();
+        ArrayList<ShapeFrame> listofSelectedShapes = listforShapes.getListofSelectedShapes();
+        ArrayList<ShapeFrame> shapesList = listforShapes.getShapesList();
 
-        selectedShapeList.remove(shapeGroup);
-        masterShapeList.remove(shapeGroup);
+        listofSelectedShapes.remove(groupShape);
+        shapesList.remove(groupShape);
 
-        while(shapeGroup.getSize()!=0){
-            ShapeFrame shapeFrame = shapeGroup.removeChild(shapeGroup.getSize()-1);
-            masterShapeList.add(shapeFrame);
-            selectedShapeList.add(shapeFrame);
-            shapeFrame.getShape().shapeSelected=true;
+        while(groupShape.gettheSize()!=0){
+            ShapeFrame shapeFrame = groupShape.removeChild(groupShape.gettheSize()-1);
+            shapesList.add(shapeFrame);
+            listofSelectedShapes.add(shapeFrame);
+            shapeFrame.gettheShape().selectedShape =true;
         }
-        listforShapes.shapeListDrawer(listforShapes.getShapeList(), listforShapes.getSelectedShapeList());
+        listforShapes.drawerForShapesList(listforShapes.getShapesList(), listforShapes.getListofSelectedShapes());
     }
 
     @Override
     public void redo() {
 
 
-        ArrayList<ShapeFrame> selectedShapeList = listforShapes.getSelectedShapeList();
-        ArrayList<ShapeFrame> mainShapeList = listforShapes.getShapeList();
+        ArrayList<ShapeFrame> listofSelectedShapes = listforShapes.getListofSelectedShapes();
+        ArrayList<ShapeFrame> shapesList = listforShapes.getShapesList();
 
-        for (ShapeFrame shapeFrame : selectedShapeList) {
-            mainShapeList.remove(shapeFrame);
+        for (ShapeFrame shapeFrame : listofSelectedShapes) {
+            shapesList.remove(shapeFrame);
             if (!shapeFrame.isGroup()) {
-                shapeGroup.addChild(shapeFrame);
-                shapeFrame.getShape().shapeSelected = false;
+                groupShape.addChild(shapeFrame);
+                shapeFrame.gettheShape().selectedShape = false;
             }
             else if (shapeFrame.isGroup()) {
-                shapeFrame.getGroup().groupSelected = false;
-                for (ShapeFrame shapeFrame1 : shapeFrame.getGroup().getGroupedSubshapes()) {
-                    shapeGroup.addChild(shapeFrame1);
+                shapeFrame.gettheGroup().selectedGroup = false;
+                for (ShapeFrame shapeFrame1 : shapeFrame.gettheGroup().getGroupedSubshapes()) {
+                    groupShape.addChild(shapeFrame1);
                 }
             }
         }
-        mainShapeList.add(shapeGroup);
-        selectedShapeList.clear();
-        selectedShapeList.add(shapeGroup);
-        listforShapes.shapeListDrawer(listforShapes.getShapeList(), listforShapes.getSelectedShapeList());
+        shapesList.add(groupShape);
+        listofSelectedShapes.clear();
+        listofSelectedShapes.add(groupShape);
+        listforShapes.drawerForShapesList(listforShapes.getShapesList(), listforShapes.getListofSelectedShapes());
     }
 
 }

@@ -18,107 +18,107 @@ public class UngroupCommand implements IEventCallback, IUndoable {
 
     @Override
     public void run() {
-        ArrayList<ShapeFrame> masterShapeList = listForShapes.getShapeList();
-        ArrayList<ShapeFrame> selectedShapeList = listForShapes.getSelectedShapeList();
+        ArrayList<ShapeFrame> masterShapeList = listForShapes.getShapesList();
+        ArrayList<ShapeFrame> listofSelectedShapes = listForShapes.getListofSelectedShapes();
         ArrayList<ShapeFrame> undoRedoList = listForShapes.getUndoRedoList();
-        ArrayList<ShapeFrame> shapesGroupList = listForShapes.getGroupList();
+        ArrayList<ShapeFrame> shapesGroupList = listForShapes.getListofGroup();
 
         ShapeFrame shapeFrame1 = shapesGroupList.get(shapesGroupList.size() - 1);
 
         if (shapesGroupList.size() == 0) {
             System.out.println("there's nothing here!");
         } else if (shapesGroupList.size() == 1) {
-            for (ShapeFrame shapeFrame : shapeFrame1.getGroup().groupedSubshapes) {
+            for (ShapeFrame shapeFrame : shapeFrame1.gettheGroup().groupedSubshapes) {
                 masterShapeList.add(shapeFrame);
-                selectedShapeList.add(shapeFrame);
-                shapeFrame.getShape().shapeSelected = true;
+                listofSelectedShapes.add(shapeFrame);
+                shapeFrame.gettheShape().selectedShape = true;
             }
-            shapeFrame1.getGroup().groupSelected = false;
-        } else if (shapesGroupList.size() > 1) {
+            shapeFrame1.gettheGroup().selectedGroup = false;
+        } else {
 
-            for (ShapeFrame shapeFrame2 : shapeFrame1.getGroup().groupedSubshapes) {
+            for (ShapeFrame shapeFrame2 : shapeFrame1.gettheGroup().groupedSubshapes) {
                 masterShapeList.add(shapeFrame2);
-                selectedShapeList.add(shapeFrame2);
-                if (shapeFrame2.isGroup() == false) {
-                    shapeFrame2.getShape().shapeSelected = true;
+                listofSelectedShapes.add(shapeFrame2);
+                if (!shapeFrame2.isGroup()) {
+                    shapeFrame2.gettheShape().selectedShape = true;
                 } else {
-                    shapeFrame2.getGroup().groupSelected = true;
+                    shapeFrame2.gettheGroup().selectedGroup = true;
                 }
             }
-            shapeFrame1.getGroup().groupSelected = false;
+            shapeFrame1.gettheGroup().selectedGroup = false;
         }
 
         shapesGroupList.remove(shapeFrame1);
         masterShapeList.remove(shapeFrame1);
-        selectedShapeList.remove(shapeFrame1);
+        listofSelectedShapes.remove(shapeFrame1);
         undoRedoList.add(shapeFrame1);
-        listForShapes.shapeListDrawer(masterShapeList, selectedShapeList);
+        listForShapes.drawerForShapesList(masterShapeList, listofSelectedShapes);
         CommandHistory.add(this);
     }
 
     @Override
     public void undo() {
-        ArrayList<ShapeFrame> masterShapeList = listForShapes.getShapeList();
-        ArrayList<ShapeFrame> selectedShapeList = listForShapes.getSelectedShapeList();
-        ArrayList<ShapeFrame> shapesGroupList = listForShapes.getGroupList();
+        ArrayList<ShapeFrame> masterShapeList = listForShapes.getShapesList();
+        ArrayList<ShapeFrame> listofSelectedShapes = listForShapes.getListofSelectedShapes();
+        ArrayList<ShapeFrame> shapesGroupList = listForShapes.getListofGroup();
 
         GroupForShapes shapeGroup = new GroupForShapes();
 
-        for (ShapeFrame shapeFrame2 : selectedShapeList) {
+        for (ShapeFrame shapeFrame2 : listofSelectedShapes) {
             masterShapeList.remove(shapeFrame2);
             shapeGroup.addChild(shapeFrame2);
-            if (shapeFrame2.isGroup() == false) {
-                shapeFrame2.getShape().shapeSelected = false;
+            if (!shapeFrame2.isGroup()) {
+                shapeFrame2.gettheShape().selectedShape = false;
             } else {
-                shapeFrame2.getGroup().groupSelected = false;
+                shapeFrame2.gettheGroup().selectedGroup = false;
             }
         }
 
         masterShapeList.add(shapeGroup);
-        selectedShapeList.clear();
-        selectedShapeList.add(shapeGroup);
+        listofSelectedShapes.clear();
+        listofSelectedShapes.add(shapeGroup);
         shapesGroupList.add(shapeGroup);
-        shapeGroup.groupSelected = true;
-        listForShapes.shapeListDrawer(masterShapeList, selectedShapeList);
+        shapeGroup.selectedGroup = true;
+        listForShapes.drawerForShapesList(masterShapeList, listofSelectedShapes);
     }
 
     @Override
     public void redo() {
 
-        ArrayList<ShapeFrame> masterShapeList = listForShapes.getShapeList();
-        ArrayList<ShapeFrame> selectedShapeList = listForShapes.getSelectedShapeList();
+        ArrayList<ShapeFrame> masterShapeList = listForShapes.getShapesList();
+        ArrayList<ShapeFrame> listofSelectedShapes = listForShapes.getListofSelectedShapes();
         ArrayList<ShapeFrame> undoRedoList = listForShapes.getUndoRedoList();
-        ArrayList<ShapeFrame> shapesGroupList = listForShapes.getGroupList();
+        ArrayList<ShapeFrame> shapesGroupList = listForShapes.getListofGroup();
 
         ShapeFrame outerShapeGroup = shapesGroupList.get(shapesGroupList.size() - 1);
 
         if (shapesGroupList.size() == 0) {
             System.out.println("there's nothing here!");
         } else if (shapesGroupList.size() == 1) {
-            for (ShapeFrame shapeFrame3 : outerShapeGroup.getGroup().groupedSubshapes) {
+            for (ShapeFrame shapeFrame3 : outerShapeGroup.gettheGroup().groupedSubshapes) {
                 masterShapeList.add(shapeFrame3);
-                selectedShapeList.add(shapeFrame3);
-                shapeFrame3.getShape().shapeSelected = true;
+                listofSelectedShapes.add(shapeFrame3);
+                shapeFrame3.gettheShape().selectedShape = true;
             }
-            outerShapeGroup.getGroup().groupSelected = false;
-        } else if (shapesGroupList.size() > 1) {
-            for (ShapeFrame s : outerShapeGroup.getGroup().groupedSubshapes) {
+            outerShapeGroup.gettheGroup().selectedGroup = false;
+        } else {
+            for (ShapeFrame s : outerShapeGroup.gettheGroup().groupedSubshapes) {
                 masterShapeList.add(s);
-                selectedShapeList.add(s);
-                if (s.isGroup() == false) {
-                    s.getShape().shapeSelected = true;
+                listofSelectedShapes.add(s);
+                if (!s.isGroup()) {
+                    s.gettheShape().selectedShape = true;
                 } else {
-                    s.getGroup().groupSelected = true;
+                    s.gettheGroup().selectedGroup = true;
                 }
             }
-            outerShapeGroup.getGroup().groupSelected = false;
+            outerShapeGroup.gettheGroup().selectedGroup = false;
         }
 
         shapesGroupList.remove(outerShapeGroup);
         masterShapeList.remove(outerShapeGroup);
-        selectedShapeList.remove(outerShapeGroup);
+        listofSelectedShapes.remove(outerShapeGroup);
         undoRedoList.add(outerShapeGroup);
 
-        listForShapes.shapeListDrawer(masterShapeList, selectedShapeList);
+        listForShapes.drawerForShapesList(masterShapeList, listofSelectedShapes);
     }
 }

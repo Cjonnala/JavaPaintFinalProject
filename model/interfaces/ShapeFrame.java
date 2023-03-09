@@ -11,10 +11,10 @@ public interface ShapeFrame {
     void draw(Graphics2D g);
     Coordinate getStartCoordinate();
     Coordinate getEndCoordinate();
-    Shape getShape();
-    int getSize();
-    void drawChildren(Graphics2D g);
-    GroupForShapes getGroup();
+    Shape gettheShape();
+    int gettheSize();
+    void drawSubShape(Graphics2D g);
+    GroupForShapes gettheGroup();
     boolean isGroup();
 
 }

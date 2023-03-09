@@ -25,34 +25,34 @@ public class PasteCommand implements IEventCallback, IUndoable {
     public void run() {
         pasteCount =0;
 
-        ArrayList<ShapeFrame> copiedShapeList = listForShapes.getCopiedShapeList();
-        ArrayList<ShapeFrame> pasteShapeList = listForShapes.getPasteShapeList();
+        ArrayList<ShapeFrame> listofCopiedShapes = listForShapes.getListofCopiedShapes();
+        ArrayList<ShapeFrame> listofPastedShapes = listForShapes.getListofPastedShapes();
 
-        for(ShapeFrame shapeFrame: pasteShapeList){
-            shapeFrame.getShape().shapePasted=false;
+        for(ShapeFrame shapeFrame: listofPastedShapes){
+            shapeFrame.gettheShape().pastedShape =false;
         }
 
-        for(ShapeFrame shapeFrame: copiedShapeList) {
+        for(ShapeFrame shapeFrame: listofCopiedShapes) {
             if (!shapeFrame.isGroup()) {
-                int x1 = shapeFrame.getShape().getStartCoordinate().x - 100;
-                int y1 = shapeFrame.getShape().getStartCoordinate().y - 100;
-                int x2 = shapeFrame.getShape().getEndCoordinate().x - 100;
-                int y2 = shapeFrame.getShape().getEndCoordinate().y - 100;
+                int x1 = shapeFrame.gettheShape().getStartCoordinate().x - 100;
+                int y1 = shapeFrame.gettheShape().getStartCoordinate().y - 100;
+                int x2 = shapeFrame.gettheShape().getEndCoordinate().x - 100;
+                int y2 = shapeFrame.gettheShape().getEndCoordinate().y - 100;
                 Coordinate coordinateX = new Coordinate(x1, y1);
                 Coordinate coordinateY = new Coordinate(x2, y2);
-                IEventCallback createShapeCommand = new ShapeCreating(shapeFrame.getShape().appState, coordinateX, coordinateY, shapeFrame.getShape().getpColor(), shapeFrame.getShape().getsColor(), listForShapes, shapeFrame.getShape().getShadingType(), shapeFrame.getShape().getShapeType());
+                IEventCallback createShapeCommand = new ShapeCreating(shapeFrame.gettheShape().appState, coordinateX, coordinateY, shapeFrame.gettheShape().getPrimaryColor(), shapeFrame.gettheShape().getSecondaryColor(), listForShapes, shapeFrame.gettheShape().getShadingType(), shapeFrame.gettheShape().getShapeType());
                 createShapeCommand.run();
                 pasteCount++;
             } else {
-                for (ShapeFrame shapeFrame1 : shapeFrame.getGroup().groupedSubshapes) {
-                    int i1 = shapeFrame1.getShape().getStartCoordinate().x - 100;
-                    int j1 = shapeFrame1.getShape().getStartCoordinate().y - 100;
-                    int i2 = shapeFrame1.getShape().getEndCoordinate().x - 100;
-                    int j2 = shapeFrame1.getShape().getEndCoordinate().y - 100;
+                for (ShapeFrame shapeFrame1 : shapeFrame.gettheGroup().groupedSubshapes) {
+                    int i1 = shapeFrame1.gettheShape().getStartCoordinate().x - 100;
+                    int j1 = shapeFrame1.gettheShape().getStartCoordinate().y - 100;
+                    int i2 = shapeFrame1.gettheShape().getEndCoordinate().x - 100;
+                    int j2 = shapeFrame1.gettheShape().getEndCoordinate().y - 100;
                     Coordinate coordinateX1 = new Coordinate(i1, j1);
                     Coordinate coordinateX2 = new Coordinate(i2, j2);
-                    IEventCallback createShapeCommand = new ShapeCreating(shapeFrame1.getShape().appState, coordinateX1, coordinateX2, shapeFrame1.getShape().getpColor(), shapeFrame1.getShape().getsColor(), listForShapes, shapeFrame1.getShape().getShadingType(), shapeFrame1.getShape().getShapeType());
-                    createShapeCommand.run();
+                    IEventCallback shapeCreating = new ShapeCreating(shapeFrame1.gettheShape().appState, coordinateX1, coordinateX2, shapeFrame1.gettheShape().getPrimaryColor(), shapeFrame1.gettheShape().getSecondaryColor(), listForShapes, shapeFrame1.gettheShape().getShadingType(), shapeFrame1.gettheShape().getShapeType());
+                    shapeCreating.run();
                     pasteCount++;
                 }
             }
@@ -63,7 +63,7 @@ public class PasteCommand implements IEventCallback, IUndoable {
 
     @Override
     public void undo() {
-        ArrayList<ShapeFrame> masterShapeList = listForShapes.getShapeList();
+        ArrayList<ShapeFrame> masterShapeList = listForShapes.getShapesList();
         ArrayList<ShapeFrame> undoRedoList = listForShapes.getUndoRedoList();
 
         if(masterShapeList.size() == 0) {
@@ -74,7 +74,7 @@ public class PasteCommand implements IEventCallback, IUndoable {
             ShapeFrame lastShape = masterShapeList.get(masterShapeList.size()-1);
             masterShapeList.remove(lastShape);
             undoRedoList.add(lastShape);
-            listForShapes.shapeListDrawer(masterShapeList, listForShapes.getSelectedShapeList());
+            listForShapes.drawerForShapesList(masterShapeList, listForShapes.getListofSelectedShapes());
             pasteCount--;
         }
     }
@@ -82,19 +82,18 @@ public class PasteCommand implements IEventCallback, IUndoable {
     @Override
     public void redo() {
 
-        ArrayList<ShapeFrame> masterShapeList = listForShapes.getShapeList();
+        ArrayList<ShapeFrame> masterShapeList = listForShapes.getShapesList();
         ArrayList<ShapeFrame> undoRedoList = listForShapes.getUndoRedoList();
 
         if(masterShapeList.size() == 0) {
-            return;
         }
         else{
 
             while(undoRedoList.size()!=0) {
-                ShapeFrame lastShape = undoRedoList.get(undoRedoList.size() - 1);
-                undoRedoList.remove(lastShape);
-                masterShapeList.add(lastShape);
-                listForShapes.shapeListDrawer(masterShapeList, listForShapes.getSelectedShapeList());
+                ShapeFrame finalShape = undoRedoList.get(undoRedoList.size() - 1);
+                undoRedoList.remove(finalShape);
+                masterShapeList.add(finalShape);
+                listForShapes.drawerForShapesList(masterShapeList, listForShapes.getListofSelectedShapes());
                 pasteCount++;
             }
         }

@@ -8,10 +8,11 @@ import java.util.ArrayList;
 public class GroupForShapes implements ShapeFrame {
 
     ShapeFrame shape;
-    public ArrayList<ShapeFrame> groupedSubshapes;
     Graphics2D g;
-    public boolean groupSelected;
     int newX, newY;
+
+    public boolean selectedGroup;
+    public ArrayList<ShapeFrame> groupedSubshapes;
 
     public GroupForShapes() {
         groupedSubshapes = new ArrayList<>();
@@ -31,7 +32,7 @@ public class GroupForShapes implements ShapeFrame {
         return shapeFrame;
     }
 
-    public int getSize() {
+    public int gettheSize() {
         int size = 0;
         for (ShapeFrame ignored : groupedSubshapes) {
             size++;
@@ -40,62 +41,62 @@ public class GroupForShapes implements ShapeFrame {
     }
 
 
-    public Point getMinXY() {
-        int shapeStartX = 9999;
-        int shapeStartY = 9999;
+    public Point getMinimumCoordXY() {
+        int startShapeX = 9999;
+        int startShapeY = 9999;
         for (ShapeFrame child : groupedSubshapes) {
             if (!child.isGroup()) {
-                if (child.getShape().getMinXY().x < shapeStartX) {
-                    shapeStartX = child.getShape().getMinXY().x;
+                if (child.gettheShape().getMinimumXY().x < startShapeX) {
+                    startShapeX = child.gettheShape().getMinimumXY().x;
                 }
-                if (child.getShape().getMinXY().y < shapeStartY) {
-                    shapeStartY = child.getShape().getMinXY().y;
+                if (child.gettheShape().getMinimumXY().y < startShapeY) {
+                    startShapeY = child.gettheShape().getMinimumXY().y;
 
                 }
             } else {
-                if (child.getGroup().getMinXY().x < shapeStartX) {
-                    shapeStartX = child.getGroup().getMinXY().x;
+                if (child.gettheGroup().getMinimumCoordXY().x < startShapeX) {
+                    startShapeX = child.gettheGroup().getMinimumCoordXY().x;
                 }
-                if (child.getGroup().getMinXY().y < shapeStartY) {
-                    shapeStartY = child.getGroup().getMinXY().y;
+                if (child.gettheGroup().getMinimumCoordXY().y < startShapeY) {
+                    startShapeY = child.gettheGroup().getMinimumCoordXY().y;
                 }
             }
 
 
         }
-        return new Point(shapeStartX, shapeStartY);
+        return new Point(startShapeX, startShapeY);
     }
 
     public Point getMaximumCoordXY() {
-        int shapeEndX = 0;
-        int shapeEndY = 0;
+        int endShapeX = 0;
+        int endShapeY = 0;
         for (ShapeFrame child : groupedSubshapes) {
             if (!child.isGroup()) {
-                if (child.getShape().getMaximumCoordXY().x > shapeEndX) {
-                    shapeEndX = child.getShape().getMaximumCoordXY().x;
+                if (child.gettheShape().getMaximumXY().x > endShapeX) {
+                    endShapeX = child.gettheShape().getMaximumXY().x;
                 }
-                if (child.getShape().getMaximumCoordXY().y > shapeEndY) {
-                    shapeEndY = child.getShape().getMaximumCoordXY().y;
+                if (child.gettheShape().getMaximumXY().y > endShapeY) {
+                    endShapeY = child.gettheShape().getMaximumXY().y;
                 }
             } else {
-                if (child.getGroup().getMaximumCoordXY().x > shapeEndX) {
-                    shapeEndX = child.getGroup().getMaximumCoordXY().x;
+                if (child.gettheGroup().getMaximumCoordXY().x > endShapeX) {
+                    endShapeX = child.gettheGroup().getMaximumCoordXY().x;
                 }
-                if (child.getGroup().getMaximumCoordXY().y > shapeEndY) {
-                    shapeEndY = child.getGroup().getMaximumCoordXY().y;
+                if (child.gettheGroup().getMaximumCoordXY().y > endShapeY) {
+                    endShapeY = child.gettheGroup().getMaximumCoordXY().y;
                 }
             }
 
         }
-        return new Point(shapeEndX, shapeEndY);
+        return new Point(endShapeX, endShapeY);
     }
 
     @Override
-    public void drawChildren(Graphics2D g) {
+    public void drawSubShape(Graphics2D g) {
         this.g = g;
         for (ShapeFrame shapeFrame : groupedSubshapes) {
-            if (shapeFrame.getSize() > 0) {
-                shapeFrame.drawChildren(g);
+            if (shapeFrame.gettheSize() > 0) {
+                shapeFrame.drawSubShape(g);
             } else {
                 shapeFrame.draw(g);
             }
@@ -123,12 +124,12 @@ public class GroupForShapes implements ShapeFrame {
     }
 
     @Override
-    public Shape getShape() {
+    public Shape gettheShape() {
         return null;
     }
 
     @Override
-    public GroupForShapes getGroup() {
+    public GroupForShapes gettheGroup() {
         return this;
     }
 
@@ -136,22 +137,22 @@ public class GroupForShapes implements ShapeFrame {
         this.newX = newCoordinateX;
         this.newY = newCoordinateY;
         for(ShapeFrame shapeFrame : groupedSubshapes){
-            shapeFrame.getShape().setStartCoordinate((shapeFrame.getShape().getStartCoordinate().x)+newCoordinateX, (shapeFrame.getShape().getStartCoordinate().y)+newCoordinateY);
-            shapeFrame.getShape().setEndCoordinate((shapeFrame.getShape().getEndCoordinate().x)+newCoordinateX, (shapeFrame.getShape().getEndCoordinate().y)+newCoordinateY);
+            shapeFrame.gettheShape().setStartCoordinate((shapeFrame.gettheShape().getStartCoordinate().x)+newCoordinateX, (shapeFrame.gettheShape().getStartCoordinate().y)+newCoordinateY);
+            shapeFrame.gettheShape().setEndCoordinate((shapeFrame.gettheShape().getEndCoordinate().x)+newCoordinateX, (shapeFrame.gettheShape().getEndCoordinate().y)+newCoordinateY);
         }
     }
 
     public void undoMovedGroupShapes(){
         for(ShapeFrame shapeFrame1 : groupedSubshapes){
-            shapeFrame1.getShape().setStartCoordinate((shapeFrame1.getShape().getStartCoordinate().x)- newX, (shapeFrame1.getShape().getStartCoordinate().y)- newY);
-            shapeFrame1.getShape().setEndCoordinate((shapeFrame1.getShape().getEndCoordinate().x)- newX, (shapeFrame1.getShape().getEndCoordinate().y)- newY);
+            shapeFrame1.gettheShape().setStartCoordinate((shapeFrame1.gettheShape().getStartCoordinate().x)- newX, (shapeFrame1.gettheShape().getStartCoordinate().y)- newY);
+            shapeFrame1.gettheShape().setEndCoordinate((shapeFrame1.gettheShape().getEndCoordinate().x)- newX, (shapeFrame1.gettheShape().getEndCoordinate().y)- newY);
         }
     }
 
     public void redoMovedGroupShapes() {
         for (ShapeFrame shapeFrame2 : groupedSubshapes) {
-            shapeFrame2.getShape().setStartCoordinate((shapeFrame2.getShape().getStartCoordinate().x) + newX, (shapeFrame2.getShape().getStartCoordinate().y) + newY);
-            shapeFrame2.getShape().setEndCoordinate((shapeFrame2.getShape().getEndCoordinate().x) + newX, (shapeFrame2.getShape().getEndCoordinate().y) + newY);
+            shapeFrame2.gettheShape().setStartCoordinate((shapeFrame2.gettheShape().getStartCoordinate().x) + newX, (shapeFrame2.gettheShape().getStartCoordinate().y) + newY);
+            shapeFrame2.gettheShape().setEndCoordinate((shapeFrame2.gettheShape().getEndCoordinate().x) + newX, (shapeFrame2.gettheShape().getEndCoordinate().y) + newY);
         }
     }
 }

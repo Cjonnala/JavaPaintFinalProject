@@ -4,18 +4,15 @@ import controller.drawing.Coordinate;
 import controller.drawing.GroupForShapes;
 import controller.drawing.Shape;
 import model.interfaces.ShapeFrame;
-import view.interfaces.IEventCallback;
 import view.strategypattern.ShadingStrategy;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
-final class EllipseShape implements ShapeFrame, IEventCallback {
+final class RhombusShape implements ShapeFrame {
 
     Shape shape;
     ShadingStrategy shadingStrategy;
-
-    EllipseShape(Shape shape, ShadingStrategy shadingStrategy) {
+    public RhombusShape(Shape shape, ShadingStrategy shadingStrategy){
         this.shape = shape;
         this.shadingStrategy = shadingStrategy;
     }
@@ -27,11 +24,11 @@ final class EllipseShape implements ShapeFrame, IEventCallback {
         int endX = Math.max(shape.startCoordinate.getX(), shape.endCoordinate.getX());
         int startY = Math.min(shape.startCoordinate.getY(), shape.endCoordinate.getY());
         int endY = Math.max(shape.startCoordinate.getY(), shape.endCoordinate.getY());
-        int width = endX - startX;
-        int height = endY - startY;
-        g.setColor(Shape.primaryColor);
-        shadingStrategy.draw(g, new Ellipse2D.Double(startX, startY, width, height));
 
+        int[] xPoints = new int[] { startX + (endX - startX) / 2, endX, startX + (endX - startX) / 2, startX };
+        int[] yPoints = new int[] { startY, startY + (endY - startY) / 2, endY, startY + (endY - startY) / 2 };
+        g.setColor(Shape.primaryColor);
+        shadingStrategy.draw(g, new Polygon(xPoints, yPoints, 4));
     }
 
     @Override
@@ -68,7 +65,4 @@ final class EllipseShape implements ShapeFrame, IEventCallback {
         return false;
     }
 
-    @Override
-    public void run() {
-    }
 }

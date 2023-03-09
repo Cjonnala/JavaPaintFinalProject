@@ -35,7 +35,7 @@ final class TriangleShape implements ShapeFrame {
         endArray[1] = shape.endCoordinate.getY();
         endArray[2] =  newCoordinate.getY();
 
-        g.setColor(Shape.pColor);
+        g.setColor(Shape.primaryColor);
 
         Path2D path = new Path2D.Double();
         path.moveTo(startArray[0], endArray[0]);
@@ -57,24 +57,24 @@ final class TriangleShape implements ShapeFrame {
     }
 
     @Override
-    public Shape getShape() {
+    public Shape gettheShape() {
         return shape;
     }
 
 
 
     @Override
-    public int getSize() {
+    public int gettheSize() {
         return 0;
     }
 
     @Override
-    public void drawChildren(Graphics2D g) {
+    public void drawSubShape(Graphics2D g) {
 
     }
 
     @Override
-    public GroupForShapes getGroup() {
+    public GroupForShapes gettheGroup() {
         return null;
     }
 

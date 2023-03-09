@@ -28,7 +28,7 @@ final class RectShape implements ShapeFrame {
 
         int width = endX - startX;
         int height = endY - startY;
-        g.setColor(Shape.pColor);
+        g.setColor(Shape.primaryColor);
         shadingStrategy.draw(g, new Rectangle(startX, startY, width, height));
     }
 
@@ -43,21 +43,21 @@ final class RectShape implements ShapeFrame {
     }
 
     @Override
-    public Shape getShape() {
+    public Shape gettheShape() {
         return shape;
     }
 
     @Override
-    public int getSize() {
+    public int gettheSize() {
         return 0;
     }
 
     @Override
-    public void drawChildren(Graphics2D g) {
+    public void drawSubShape(Graphics2D g) {
     }
 
     @Override
-    public GroupForShapes getGroup() {
+    public GroupForShapes gettheGroup() {
         return null;
     }
 
