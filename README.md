@@ -28,6 +28,10 @@ For this sprint I have implemented dashed outline for the shapes when they are s
 Points to be noted:
 •	Multiple paste is not working when any shape is selected, this will be resolved in the next sprint.
 
+Sprint 4:
+
+For this sprint I have implemented group and ungroup functionalties.
+
 
  
 
