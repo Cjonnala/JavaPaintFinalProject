@@ -13,6 +13,8 @@ public class ShapeDesign {
             case PENTAGON -> new PentagonShapeFactory();
             case RHOMBUS -> new RhombusShapeFactory();
             case DROPLET -> new DropletShapeFactory();
+            case SEPTAGON -> new SeptagonShapeFactory();
+            case OCTAGON -> new OctagonShapeFactory();
 
         };
         return factory.createShapeFrame(shape);

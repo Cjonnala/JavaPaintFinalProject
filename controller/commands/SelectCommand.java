@@ -30,8 +30,8 @@ public class SelectCommand implements IEventCallback, IUndoable {
     @Override
     public void run() {
         ArrayList<ShapeFrame> shapesList = listForShapes.getShapesList();
-        ArrayList<ShapeFrame> listofSelectedShapes = listForShapes.getListofSelectedShapes();
-        listofSelectedShapes.clear();
+        ArrayList<ShapeFrame> listOfSelectedShapes = listForShapes.getListOfSelectedShapes();
+        listOfSelectedShapes.clear();
 
         int clickStartX = Math.min(this.startCoordinate.getX(), this.endCoordinate.getX());
         int clickEndX = Math.max(this.startCoordinate.getX(), this.endCoordinate.getX());
@@ -40,17 +40,18 @@ public class SelectCommand implements IEventCallback, IUndoable {
         int w = clickEndX - clickStartX;
         int l = clickEndY - clickStartY;
 
-        for (ShapeFrame s : shapesList) {
+        for (int i = 0; i < shapesList.size(); i++) {
+            ShapeFrame s = shapesList.get(i);
             if (s.isGroup()) {
-                int groupWidth = s.gettheGroup().getMaximumCoordXY().x - s.gettheGroup().getMinimumCoordXY().x;
-                int groupHeight = s.gettheGroup().getMaximumCoordXY().x - s.gettheGroup().getMinimumCoordXY().x;
+                int groupWidth = s.gettheGroup().getMaximumCordXY().x - s.gettheGroup().getMinimumCoordXY().x;
+                int groupHeight = s.gettheGroup().getMaximumCordXY().x - s.gettheGroup().getMinimumCoordXY().x;
 
                 if (s.gettheGroup().getMinimumCoordXY().x + groupWidth > clickStartX
                         && s.gettheGroup().getMinimumCoordXY().y + groupHeight > clickStartY
                         && clickStartX + w > s.gettheGroup().getMinimumCoordXY().x
                         && clickStartY + l > s.gettheGroup().getMinimumCoordXY().y) {
                     s.gettheGroup().selectedGroup = true;
-                    listofSelectedShapes.add(s);
+                    listOfSelectedShapes.add(s);
 
                 }
             } else {
@@ -67,11 +68,11 @@ public class SelectCommand implements IEventCallback, IUndoable {
                         && clickStartX + w > shapeStartX
                         && clickStartY + l > shapeStartY) {
                     s.gettheShape().shapeSelected();
-                    listofSelectedShapes.add(s);
+                    listOfSelectedShapes.add(s);
 
                 }
             }
-            listForShapes.drawerForShapesList(shapesList, listofSelectedShapes);
+            listForShapes.drawerForShapesList(shapesList, listOfSelectedShapes);
             CommandHistory.add(this);
 
         }
@@ -79,25 +80,28 @@ public class SelectCommand implements IEventCallback, IUndoable {
 
     @Override
     public void undo() {
-        ArrayList<ShapeFrame> listofSelectedShapes = listForShapes.getListofSelectedShapes();
-        ArrayList<ShapeFrame> listofdeselectedshapes = ListForShapes.listofdeselectedshapes;
-        for(ShapeFrame d: listofSelectedShapes){
-            listofdeselectedshapes.add(d);
-            d.gettheShape().selectedShape =false;
+        ArrayList<ShapeFrame> listOfSelectedShapes = listForShapes.getListOfSelectedShapes();
+        ArrayList<ShapeFrame> listOfDeselectedShapes = ListForShapes.listOfDeselectedShapes;
+        for (int i = 0; i < listOfSelectedShapes.size(); i++) {
+            ShapeFrame selectedShape = listOfSelectedShapes.get(i);
+            listOfDeselectedShapes.add(selectedShape);
+            if (selectedShape.isGroup()) selectedShape.gettheGroup().selectedGroup = false;
+            else selectedShape.gettheShape().selectedShape = false;
         }
-        listofSelectedShapes.clear();
-        listForShapes.drawerForShapesList(listForShapes.getShapesList(),listForShapes.getListofSelectedShapes());
+        listOfSelectedShapes.clear();
+        listForShapes.drawerForShapesList(listForShapes.getShapesList(),listForShapes.getListOfSelectedShapes());
     }
 
     @Override
     public void redo() {
-        ArrayList<ShapeFrame> listofdeselectedshapes = ListForShapes.listofdeselectedshapes;
-        for(ShapeFrame d: listofdeselectedshapes){
-
-            d.gettheShape().selectedShape =true;
+        ArrayList<ShapeFrame> listOfDeselectedShapes = ListForShapes.listOfDeselectedShapes;
+        for (int i = 0; i < listOfDeselectedShapes.size(); i++) {
+            ShapeFrame deselectedShape = listOfDeselectedShapes.get(i);
+            if (deselectedShape.isGroup()) deselectedShape.gettheGroup().selectedGroup = true;
+            else deselectedShape.gettheShape().selectedShape = true;
         }
-        listofdeselectedshapes.clear();
-        listForShapes.drawerForShapesList(listForShapes.getShapesList(),listForShapes.getListofSelectedShapes());
+        listOfDeselectedShapes.clear();
+        listForShapes.drawerForShapesList(listForShapes.getShapesList(),listForShapes.getListOfSelectedShapes());
 
     }
 }

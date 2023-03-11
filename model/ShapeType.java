@@ -7,6 +7,8 @@ public enum ShapeType {
     SEMI_CIRCLE,
     PENTAGON,
     RHOMBUS,
-    DROPLET
+    DROPLET,
+    SEPTAGON,
+    OCTAGON
 
     }

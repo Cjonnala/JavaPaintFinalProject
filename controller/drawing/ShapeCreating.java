@@ -10,7 +10,6 @@ import view.interfaces.IEventCallback;
 import java.awt.*;
 
 public class ShapeCreating implements IEventCallback,IUndoable {
-
     private final ShapeType shapeType;
     ApplicationState appState;
     private final Coordinate startCoordinate;
@@ -20,7 +19,6 @@ public class ShapeCreating implements IEventCallback,IUndoable {
     Color sColor;
     private final ShapeShadingType shapeShadingType;
     public ShapeFrame shapeFrame;
-
     public ShapeCreating(ApplicationState appState, Coordinate startCoordinate, Coordinate endCoordinate, Color pColor,Color sColor, ListForShapes listForShapes, ShapeShadingType shapeShadingType, ShapeType shapeType){
         this.startCoordinate = startCoordinate;
         this.endCoordinate = endCoordinate;
@@ -31,7 +29,6 @@ public class ShapeCreating implements IEventCallback,IUndoable {
         this.shapeShadingType = shapeShadingType;
         this.shapeType = shapeType;
     }
-
     public void run() {
         Shape shape = new Shape(startCoordinate, endCoordinate,appState,pColor,sColor,shapeShadingType,shapeType);
         ShapeDesign shapeDesign = new ShapeDesign();
@@ -39,17 +36,12 @@ public class ShapeCreating implements IEventCallback,IUndoable {
         listForShapes.addShape(shapeFrame);
         CommandHistory.add(this);
     }
-
-
     @Override
     public void undo() {
         listForShapes.removeShape();
-
     }
-
     @Override
     public void redo() {
         listForShapes.redoShape();
-
     }
 }

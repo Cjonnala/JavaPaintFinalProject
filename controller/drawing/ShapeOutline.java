@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.geom.Arc2D;
 import java.awt.geom.GeneralPath;
 
-public class ShapeOutline {
+public class ShapeOutline implements ShapeFrame{
     PaintCanvasBase paintCanvas;
     public ShapeOutline(PaintCanvasBase paintCanvas){
         this.paintCanvas = paintCanvas;
@@ -82,7 +82,44 @@ public class ShapeOutline {
                     path.curveTo(startX, topY, startX, startY, topX, startY);
                     g2d.draw(path);
                 }
-
+                case OCTAGON -> {
+                    int startX = Math.min(shapeFrame.gettheShape().startCoordinate.getX(), shapeFrame.gettheShape().endCoordinate.getX());
+                    int endX = Math.max(shapeFrame.gettheShape().startCoordinate.getX(), shapeFrame.gettheShape().endCoordinate.getX());
+                    int startY = Math.min(shapeFrame.gettheShape().startCoordinate.getY(), shapeFrame.gettheShape().endCoordinate.getY());
+                    int endY = Math.max(shapeFrame.gettheShape().startCoordinate.getY(), shapeFrame.gettheShape().endCoordinate.getY());
+                    int width = endX - startX;
+                    int height = endY - startY;
+                    int[] xPoints = new int[] { startX + width/4, startX + 3*width/4, endX, endX, startX + 3*width/4, startX + width/4, startX, startX };
+                    int[] yPoints = new int[] { startY, startY, startY + height/4, startY + 3*height/4, endY, endY, startY + 3*height/4, startY + height/4 };
+                    int offset = 5; // adjust the offset as needed
+                    int[] xPointsOffset = new int[xPoints.length];
+                    int[] yPointsOffset = new int[yPoints.length];
+                    for (int i = 0; i < xPoints.length; i++) {
+                        xPointsOffset[i] = xPoints[i] + offset;
+                        yPointsOffset[i] = yPoints[i] + offset;
+                    }
+                    g2d.drawPolygon(xPointsOffset, yPointsOffset, xPoints.length);
+                }
+                case SEPTAGON -> {
+                    int centerX = (shapeFrame.gettheShape().getStartCoordinate().getX() + shapeFrame.gettheShape().getEndCoordinate().getX()) / 2;
+                    int centerY = (shapeFrame.gettheShape().getStartCoordinate().getY() + shapeFrame.gettheShape().getEndCoordinate().getY()) / 2;
+                    int radius = Math.min(shapeFrame.gettheShape().getWidth(), shapeFrame.gettheShape().getHeight()) / 2;
+                    int[] xPoints = new int[7];
+                    int[] yPoints = new int[7];
+                    for (int i = 0; i < 7; i++) {
+                        double angle = i * Math.PI / 3.5;
+                        xPoints[i] = (int) Math.round(centerX + radius * Math.cos(angle));
+                        yPoints[i] = (int) Math.round(centerY + radius * Math.sin(angle));
+                    }
+                    int offset = 5; // adjust the offset as needed
+                    int[] xPointsOffset = new int[xPoints.length];
+                    int[] yPointsOffset = new int[yPoints.length];
+                    for (int i = 0; i < xPoints.length; i++) {
+                        xPointsOffset[i] = xPoints[i] + offset;
+                        yPointsOffset[i] = yPoints[i] + offset;
+                    }
+                    g2d.drawPolygon(xPointsOffset, yPointsOffset, xPoints.length);
+                }
 
                 default -> System.out.println("this shape ain't selected!");
             }
@@ -90,13 +127,53 @@ public class ShapeOutline {
 
     }
     public void outlineGroup(ShapeFrame shapeFrame){
-        int groupWidth = shapeFrame.gettheGroup().getMaximumCoordXY().x - shapeFrame.gettheGroup().getMinimumCoordXY().x;
-        int groupHeight = shapeFrame.gettheGroup().getMaximumCoordXY().y - shapeFrame.gettheGroup().getMinimumCoordXY().y;
+        int groupWidth = shapeFrame.gettheGroup().getMaximumCordXY().x - shapeFrame.gettheGroup().getMinimumCoordXY().x;
+        int groupHeight = shapeFrame.gettheGroup().getMaximumCordXY().y - shapeFrame.gettheGroup().getMinimumCoordXY().y;
 
         Graphics2D g = paintCanvas.getGraphics2D();
         Stroke stroke = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1, new float[]{9}, 0);
         g.setStroke(stroke);
         g.setColor(Color.BLACK);
         g.drawRect(shapeFrame.gettheGroup().getMinimumCoordXY().x -5, shapeFrame.gettheGroup().getMinimumCoordXY().y-5, groupWidth+10,groupHeight+10);
+    }
+
+    @Override
+    public void draw(Graphics2D g) {
+
+    }
+
+    @Override
+    public Coordinate getStartCoordinate() {
+        return null;
+    }
+
+    @Override
+    public Coordinate getEndCoordinate() {
+        return null;
+    }
+
+    @Override
+    public Shape gettheShape() {
+        return null;
+    }
+
+    @Override
+    public int gettheSize() {
+        return 0;
+    }
+
+    @Override
+    public void drawSubShape(Graphics2D g) {
+
+    }
+
+    @Override
+    public GroupForShapes gettheGroup() {
+        return null;
+    }
+
+    @Override
+    public boolean isGroup() {
+        return false;
     }
 }

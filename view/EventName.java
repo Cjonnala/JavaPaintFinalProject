@@ -37,5 +37,12 @@ public enum EventName {
 	PASTE,
 	DELETE,
 	GROUP,
-	UNGROUP
+	UNGROUP,
+
+	TUTORIAL {
+		@Override
+		public String toString() {
+			return "TUTORIAL";
+		}
+	}
 }

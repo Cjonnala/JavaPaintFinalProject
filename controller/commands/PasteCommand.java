@@ -11,28 +11,20 @@ import view.interfaces.IEventCallback;
 import java.util.ArrayList;
 
 public class PasteCommand implements IEventCallback, IUndoable {
-
     private final ListForShapes listForShapes;
     public int pasteCount;
-
-
-
     public PasteCommand(ListForShapes listForShapes){
         this.listForShapes = listForShapes;
     }
-
     @Override
     public void run() {
         pasteCount =0;
-
-        ArrayList<ShapeFrame> listofCopiedShapes = listForShapes.getListofCopiedShapes();
-        ArrayList<ShapeFrame> listofPastedShapes = listForShapes.getListofPastedShapes();
-
-        for(ShapeFrame shapeFrame: listofPastedShapes){
+        ArrayList<ShapeFrame> listOfCopiedShapes = listForShapes.getListOfCopiedShapes();
+        ArrayList<ShapeFrame> listOfPastedShapes = listForShapes.getListOfPastedShapes();
+        for(ShapeFrame shapeFrame: listOfPastedShapes){
             shapeFrame.gettheShape().pastedShape =false;
         }
-
-        for(ShapeFrame shapeFrame: listofCopiedShapes) {
+        for(ShapeFrame shapeFrame: listOfCopiedShapes) {
             if (!shapeFrame.isGroup()) {
                 int x1 = shapeFrame.gettheShape().getStartCoordinate().x - 100;
                 int y1 = shapeFrame.gettheShape().getStartCoordinate().y - 100;
@@ -44,7 +36,7 @@ public class PasteCommand implements IEventCallback, IUndoable {
                 createShapeCommand.run();
                 pasteCount++;
             } else {
-                for (ShapeFrame shapeFrame1 : shapeFrame.gettheGroup().groupedSubshapes) {
+                for (ShapeFrame shapeFrame1 : shapeFrame.gettheGroup().groupedSubShapes) {
                     int i1 = shapeFrame1.gettheShape().getStartCoordinate().x - 100;
                     int j1 = shapeFrame1.gettheShape().getStartCoordinate().y - 100;
                     int i2 = shapeFrame1.gettheShape().getEndCoordinate().x - 100;
@@ -74,7 +66,7 @@ public class PasteCommand implements IEventCallback, IUndoable {
             ShapeFrame lastShape = masterShapeList.get(masterShapeList.size()-1);
             masterShapeList.remove(lastShape);
             undoRedoList.add(lastShape);
-            listForShapes.drawerForShapesList(masterShapeList, listForShapes.getListofSelectedShapes());
+            listForShapes.drawerForShapesList(masterShapeList, listForShapes.getListOfSelectedShapes());
             pasteCount--;
         }
     }
@@ -93,7 +85,7 @@ public class PasteCommand implements IEventCallback, IUndoable {
                 ShapeFrame finalShape = undoRedoList.get(undoRedoList.size() - 1);
                 undoRedoList.remove(finalShape);
                 masterShapeList.add(finalShape);
-                listForShapes.drawerForShapesList(masterShapeList, listForShapes.getListofSelectedShapes());
+                listForShapes.drawerForShapesList(masterShapeList, listForShapes.getListOfSelectedShapes());
                 pasteCount++;
             }
         }

@@ -14,26 +14,30 @@ public class CopyCommand implements IEventCallback, IUndoable {
 
     public ListForShapes listForShapes;
 
+    /**
+     * @param listForShapes
+     *
+     */
     public CopyCommand(ListForShapes listForShapes){
         this.listForShapes = listForShapes;
     }
     @Override
     public void run() {
 
-        ArrayList<ShapeFrame> listofSelectedShapes = listForShapes.getListofSelectedShapes();
-        ArrayList<ShapeFrame> listofCopiedShapes = listForShapes.getListofCopiedShapes();
-        listofCopiedShapes.clear();
-        listForShapes.getListofPastedShapes().clear();
+        ArrayList<ShapeFrame> listOfSelectedShapes = listForShapes.getListOfSelectedShapes();
+        ArrayList<ShapeFrame> listOfCopiedShapes = listForShapes.getListOfCopiedShapes();
+        listOfCopiedShapes.clear();
+        listForShapes.getListOfPastedShapes().clear();
 
-        listofCopiedShapes.addAll(listofSelectedShapes);
+        listOfCopiedShapes.addAll(listOfSelectedShapes);
 
         CommandHistory.add(this);
     }
 //undo for the copy command
     @Override
     public void undo() {
-        ArrayList<ShapeFrame> listOfSelectedShapes = listForShapes.getListofSelectedShapes();
-        ArrayList<ShapeFrame> listOfCopiedShapes = listForShapes.getListofCopiedShapes();
+        ArrayList<ShapeFrame> listOfSelectedShapes = listForShapes.getListOfSelectedShapes();
+        ArrayList<ShapeFrame> listOfCopiedShapes = listForShapes.getListOfCopiedShapes();
 
         listOfSelectedShapes.addAll(listOfCopiedShapes);
         listOfCopiedShapes.clear();
@@ -41,9 +45,9 @@ public class CopyCommand implements IEventCallback, IUndoable {
 //redo for the copy command
     @Override
     public void redo() {
-        ArrayList<ShapeFrame> listofSelectedShapes = listForShapes.getListofSelectedShapes();
-        ArrayList<ShapeFrame> listofCopiedShapes = listForShapes.getListofCopiedShapes();
+        ArrayList<ShapeFrame> listOfSelectedShapes = listForShapes.getListOfSelectedShapes();
+        ArrayList<ShapeFrame> listOfCopiedShapes = listForShapes.getListOfCopiedShapes();
 
-        listofCopiedShapes.addAll(listofSelectedShapes);
+        listOfCopiedShapes.addAll(listOfSelectedShapes);
     }
 }

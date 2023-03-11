@@ -10,14 +10,14 @@ import java.util.ArrayList;
 
 public class ListForShapes {
 
-    public static ArrayList<ShapeFrame> shapeslist = new ArrayList<>();
-    public static ArrayList<ShapeFrame> listofdeletedshapes = new ArrayList<>();
-    public static ArrayList<ShapeFrame> listofselectedshapes = new ArrayList<>();
-    public static ArrayList<ShapeFrame> listofdeselectedshapes = new ArrayList<>();
-    public static ArrayList<ShapeFrame> listofcopiedshapes = new ArrayList<>();
-    public static ArrayList<ShapeFrame> listofpastedshapes = new ArrayList<>();
+    public static ArrayList<ShapeFrame> shapesList = new ArrayList<>();
+    public static ArrayList<ShapeFrame> listOfDeletedShapes = new ArrayList<>();
+    public static ArrayList<ShapeFrame> listOfSelectedShapes = new ArrayList<>();
+    public static ArrayList<ShapeFrame> listOfDeselectedShapes = new ArrayList<>();
+    public static ArrayList<ShapeFrame> listOfCopiedShapes = new ArrayList<>();
+    public static ArrayList<ShapeFrame> listOfPastedShapes = new ArrayList<>();
     public static ArrayList<ShapeFrame> undoRedoList = new ArrayList<>();
-    public static ArrayList<ShapeFrame> listofgroup = new ArrayList<>();
+    public static ArrayList<ShapeFrame> listOfGroup = new ArrayList<>();
 
     private static PaintCanvas paintCanvas;
     public ApplicationState appState;
@@ -29,8 +29,8 @@ public class ListForShapes {
     }
 
     public void addShape(ShapeFrame shape) {
-        shapeslist.add(shape);
-        drawerForShapesList(shapeslist, listofselectedshapes);
+        shapesList.add(shape);
+        drawerForShapesList(shapesList, listOfSelectedShapes);
     }
 
 
@@ -39,49 +39,37 @@ public class ListForShapes {
         Graphics2D g = paintCanvas.getGraphics2D();
         g.setColor(Color.white);
         g.fillRect(0,0,9999,9999);
-        for (ShapeFrame s: shapeList){
+        for (int i = 0, shapeListSize = shapeList.size(); i < shapeListSize; i++) {
+            ShapeFrame s = shapeList.get(i);
             s.draw(g);
-            if(s.gettheSize()>0){
-                s.drawSubShape(g);
-            }
+            if (s.gettheSize() > 0) s.drawSubShape(g);
         }
         if(selectedShapeList.size()>0){
-            for (ShapeFrame z: selectedShapeList){
+            for (int i = 0, selectedShapeListSize = selectedShapeList.size(); i < selectedShapeListSize; i++) {
+                ShapeFrame z = selectedShapeList.get(i);
                 ShapeOutline shapeOutline = new ShapeOutline(paintCanvas);
-                if(z.isGroup()){
-                    shapeOutline.outlineGroup(z);
-                }
-                else {
-                    shapeOutline.outlineShape(z);
-                }
+                if (z.isGroup()) shapeOutline.outlineGroup(z);
+                else shapeOutline.outlineShape(z);
             }
         }
-
-//        CommandHistory.add(this);
     }
 
     public void removeShape() {
-        if (shapeslist.size() == 0) {
-            System.out.println("There's nothing in the list to remove!");
-            return;
-        }
-        ShapeFrame lastShape = shapeslist.get(shapeslist.size() - 1);
+        ShapeFrame lastShape = shapesList.get(shapesList.size() - 1);
         lastShape.gettheShape().selectedShape = false;
-        shapeslist.remove(lastShape);
-        listofdeletedshapes.add(lastShape);
-        drawerForShapesList(shapeslist, listofselectedshapes);
+        shapesList.remove(lastShape);
+        listOfDeletedShapes.add(lastShape);
+        drawerForShapesList(shapesList, listOfSelectedShapes);
     }
 
     public void redoShape() {
-        if (listofdeletedshapes.size() == 0 && shapeslist.size() == 0) {
-            System.out.println("There's nothing to redo!");
-        } else if (listofdeletedshapes.size() == 0) {
-            ShapeFrame lastShape = shapeslist.get(shapeslist.size() - 1);
+          if (listOfDeletedShapes.size() == 0) {
+            ShapeFrame lastShape = shapesList.get(shapesList.size() - 1);
             if (lastShape.gettheShape().undoDone) {
                 lastShape.gettheShape().redoMove();
                 lastShape.gettheShape().undoDone = false;
                 lastShape.gettheShape().shapeSelected();
-                drawerForShapesList(shapeslist, listofselectedshapes);
+                drawerForShapesList(shapesList, listOfSelectedShapes);
             }
         } else {
             addDeletedShapes();
@@ -89,34 +77,34 @@ public class ListForShapes {
     }
 
     public void addDeletedShapes() {
-        ShapeFrame d = listofdeletedshapes.remove(listofdeletedshapes.size() - 1);
-        shapeslist.add(d);
+        ShapeFrame d = listOfDeletedShapes.remove(listOfDeletedShapes.size() - 1);
+        shapesList.add(d);
         d.gettheShape().selectedShape = true;
 
-        drawerForShapesList(shapeslist, listofselectedshapes);
+        drawerForShapesList(shapesList, listOfSelectedShapes);
     }
 
 
-    public ArrayList<ShapeFrame> getListofSelectedShapes() {return listofselectedshapes;
+    public ArrayList<ShapeFrame> getListOfSelectedShapes() {return listOfSelectedShapes;
     }
 
     public ArrayList<ShapeFrame> getShapesList() {
-        return shapeslist;
+        return shapesList;
     }
 
-    public ArrayList<ShapeFrame> getListofDeletedShapes() {
-        return listofdeletedshapes;
+    public ArrayList<ShapeFrame> getListOfDeletedShapes() {
+        return listOfDeletedShapes;
     }
 
-    public ArrayList<ShapeFrame> getListofCopiedShapes() {return listofcopiedshapes;
+    public ArrayList<ShapeFrame> getListOfCopiedShapes() {return listOfCopiedShapes;
     }
 
-    public ArrayList<ShapeFrame> getListofPastedShapes() {
-        return listofpastedshapes;
+    public ArrayList<ShapeFrame> getListOfPastedShapes() {
+        return listOfPastedShapes;
     }
 
     public ArrayList<ShapeFrame> getUndoRedoList() {
         return undoRedoList;
     }
-    public ArrayList<ShapeFrame> getListofGroup() { return listofgroup;}
+    public ArrayList<ShapeFrame> getListOfGroup() { return listOfGroup;}
 }
