@@ -120,6 +120,31 @@ public class ShapeOutline implements ShapeFrame{
                     }
                     g2d.drawPolygon(xPointsOffset, yPointsOffset, xPoints.length);
                 }
+                case TRAPEZOID -> {
+                    int x1 = shapeFrame.gettheShape().startCoordinate.getX();
+                    int x2 = shapeFrame.gettheShape().endCoordinate.getX();
+                    int y1 = shapeFrame.gettheShape().startCoordinate.getY();
+                    int y2 = shapeFrame.gettheShape().endCoordinate.getY();
+                    int height = Math.abs(y2 - y1);
+                    int width = Math.abs(x2 - x1);
+                    int topWidth = (int) (width - ((-38.0) / height) * shapeFrame.gettheShape().getWidth());
+                    int x3 = x1 + (width - topWidth) / 38;
+                    int x4 = x3 + topWidth;
+
+                    int[] xPoints = {x1-5, x3-5, x4+10, x2+8};
+                    int[] yPoints = {y1-5, y2+10, y2+10, y1-5};
+                    g2d.drawPolygon(xPoints, yPoints, 4);
+                }
+                case SQUARE -> {
+                    int x1 = shapeFrame.gettheShape().startCoordinate.getX();
+                    int x2 = shapeFrame.gettheShape().endCoordinate.getX();
+                    int y1 = shapeFrame.gettheShape().startCoordinate.getY();
+                    int y2 = shapeFrame.gettheShape().endCoordinate.getY();
+                    int minX = Math.min(x1, x2) - 5;
+                    int minY = Math.min(y1, y2) - 5;
+                    int side = Math.abs(Math.min(x2 - x1, y2 - y1)) + 10;
+                    g2d.drawRect(minX, minY, side, side);
+                }
 
                 default -> System.out.println("this shape ain't selected!");
             }

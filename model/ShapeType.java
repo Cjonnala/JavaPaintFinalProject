@@ -9,6 +9,8 @@ public enum ShapeType {
     RHOMBUS,
     DROPLET,
     SEPTAGON,
-    OCTAGON
+    OCTAGON,
+    TRAPEZOID,
+    SQUARE
 
     }

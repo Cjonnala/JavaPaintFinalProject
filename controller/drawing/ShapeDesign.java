@@ -15,6 +15,9 @@ public class ShapeDesign {
             case DROPLET -> new DropletShapeFactory();
             case SEPTAGON -> new SeptagonShapeFactory();
             case OCTAGON -> new OctagonShapeFactory();
+            case TRAPEZOID -> new TrapezoidShapeFactory();
+            case SQUARE -> new SquareShapeFactory();
+
 
         };
         return factory.createShapeFrame(shape);
