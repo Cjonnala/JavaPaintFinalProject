@@ -91,7 +91,7 @@ public class ShapeOutline implements ShapeFrame{
                     int height = endY - startY;
                     int[] xPoints = new int[] { startX + width/4, startX + 3*width/4, endX, endX, startX + 3*width/4, startX + width/4, startX, startX };
                     int[] yPoints = new int[] { startY, startY, startY + height/4, startY + 3*height/4, endY, endY, startY + 3*height/4, startY + height/4 };
-                    int offset = 5; // adjust the offset as needed
+                    int offset = 0; // adjust the offset as needed
                     int[] xPointsOffset = new int[xPoints.length];
                     int[] yPointsOffset = new int[yPoints.length];
                     for (int i = 0; i < xPoints.length; i++) {
@@ -111,7 +111,7 @@ public class ShapeOutline implements ShapeFrame{
                         xPoints[i] = (int) Math.round(centerX + radius * Math.cos(angle));
                         yPoints[i] = (int) Math.round(centerY + radius * Math.sin(angle));
                     }
-                    int offset = 5; // adjust the offset as needed
+                    int offset = 0; // adjust the offset as needed
                     int[] xPointsOffset = new int[xPoints.length];
                     int[] yPointsOffset = new int[yPoints.length];
                     for (int i = 0; i < xPoints.length; i++) {
