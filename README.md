@@ -16,7 +16,11 @@ For this sprint I have implemented various colors, shading types and all three s
 
 **Sprint 3**
 
-For this sprint I have implemented " Group and Ungroup ". I have also implemented Copy, Paste and Delete Commands.
+For this sprint I have implemented dashed outline for the shapes when they are selected. I have also implemented Copy, Paste and Delete Commands.
+
+**Sprint 4**
+
+For this sprint I have implemented "Group and Ungroup". I have also implemented Copy, Paste and Delete Commands.
 
 **Design Pattern**
 
